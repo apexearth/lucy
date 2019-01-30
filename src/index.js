@@ -1,6 +1,6 @@
-const easymidi = require('easymidi');
+const midi = require('./midi')
 
-const output = new easymidi.Output('MIDI Output Name', true);
+const output = midi.output('Lucy Output')
 
 const playNote = (note, duration) => {
     return new Promise((resolve, reject) => {
@@ -20,13 +20,13 @@ const playNote = (note, duration) => {
     })
 }
 
-setTimeout(async () => {
-    while (true) {
-        for (let i = 0; i < 12; i++) {
-            await playNote(70 - i, 200)
-        }
-        for (let i = 12; i > 0; i--) {
-            await playNote(70 - i, 200)
-        }
-    }
-}, 1000)
+// setTimeout(async () => {
+//     while (true) {
+//         for (let i = 0; i < 12; i++) {
+//             await playNote(70 - i, 200)
+//         }
+//         for (let i = 12; i > 0; i--) {
+//             await playNote(70 - i, 200)
+//         }
+//     }
+// }, 1000)
