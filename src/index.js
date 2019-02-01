@@ -14,7 +14,7 @@ const playNote = (note, duration) => {
                 note,
                 velocity: 127,
                 channel: 3
-            });
+            })
             resolve()
         }, duration)
     })
