@@ -1,0 +1,42 @@
+const {EventEmitter} = require('events')
+
+const Tracker = require('./Tracker')
+const midi = require('./midi')
+
+/**
+ * I play notes! (MIDI)
+ */
+class Player extends EventEmitter {
+    constructor(...args) {
+        super(...args)
+        this.tracker = new Tracker()
+        this.output = midi.output('Lucy Output')
+        this.tracker.on('tick', () => this.tick())
+    }
+
+    start() {
+        this.tracker.start()
+    }
+
+    stop() {
+        this.tracker.stop()
+    }
+
+    tick() {
+        /** Shine! */
+    }
+}
+
+module.exports = Player
+
+if (require.main === module) {
+    let player = new Player()
+    player.start()
+    let quarter = 0
+    player.tracker.on('tick', () => {
+        if (player.tracker[4] !== quarter) {
+            quarter = player.tracker[4]
+            console.log(quarter)
+        }
+    })
+}
