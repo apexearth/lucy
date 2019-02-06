@@ -1,18 +1,17 @@
-const Tracker = require('./Tracker')
-const {expect} = require('chai')
+import {expect} from 'chai'
+import Tracker from './Tracker'
 
 describe('Tracker', () => {
-    let tracker
+    let tracker: Tracker
 
-    beforeEach(function () {
+    beforeEach(function() {
         tracker = new Tracker({bpm: 120})
     })
 
-    it('basics', function () {
+    it('basics', function() {
         expect(tracker.bpm).to.equal(120)
         expect(tracker.bps).to.equal(2)
         expect(tracker.mspb).to.equal(500)
-
 
         // These values track which quarter note, sixteenth note, bar, etc... we're on.
         tracker.delta = 5000
@@ -38,7 +37,7 @@ describe('Tracker', () => {
         expect(tracker[128]).to.equal(314)
     })
 
-    it('start', function (done) {
+    it('start', function(done) {
         tracker.on('start', () => {
             tracker.kill()
             done()
@@ -46,8 +45,8 @@ describe('Tracker', () => {
         tracker.start()
     })
 
-    it('stop', function (done) {
-        tracker.on('tick', delta => {
+    it('stop', function(done) {
+        tracker.on('tick', (delta) => {
             tracker.kill()
             expect(delta).to.be.gte(0)
             done()

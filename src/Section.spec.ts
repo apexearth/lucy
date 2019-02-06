@@ -1,12 +1,10 @@
-const Section = require('./Section')
-const Tracker = require('./Tracker')
-const {expect} = require('chai')
+import {expect} from 'chai'
+import Section from './Section'
 
 describe('Section', () => {
-    let tracker, section
+    let section: Section
     beforeEach(() => {
-        tracker = new Tracker()
-        section = new Section({tracker})
+        section = new Section()
     })
 
     it('basics', () => {

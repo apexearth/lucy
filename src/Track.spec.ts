@@ -1,9 +1,11 @@
-const Track = require('./Track')
-const Tracker = require('./Tracker')
-const {expect} = require('chai')
+import {expect} from 'chai'
+import Track from './Track'
+import Tracker from './Tracker'
 
 describe('Track', () => {
-    let tracker, track
+    let tracker: Tracker
+    let track: Track
+
     beforeEach(() => {
         tracker = new Tracker()
         track = new Track({tracker})
