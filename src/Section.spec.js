@@ -21,6 +21,5 @@ describe('Section', () => {
          */
         expect(section.notes).to.be.an('array')
         expect(section.validate()).to.equal(true)
-        expect(section.addNote())
     })
 })

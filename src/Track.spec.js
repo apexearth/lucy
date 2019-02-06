@@ -13,6 +13,5 @@ describe('Track', () => {
         expect(track.sections).to.be.an('array')
         expect(track.notes).to.be.an('array')
         expect(track.validate()).to.equal(true)
-        expect(track.addNote())
     })
 })

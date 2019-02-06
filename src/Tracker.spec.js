@@ -53,5 +53,5 @@ describe('Tracker', () => {
             done()
         })
         tracker.start()
-    });
+    })
 })
