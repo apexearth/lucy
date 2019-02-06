@@ -3,6 +3,9 @@ node_js:
   - "11"
   - "10"
   - "8"
+before_install:
+  - sudo apt update
+  - sudo apt install libasound2-dev -y
 script:
   - npm run coveralls
 deploy:
