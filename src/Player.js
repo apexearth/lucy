@@ -16,14 +16,25 @@ class Player extends EventEmitter {
 
     start() {
         this.tracker.start()
+        this.emit('start')
     }
 
     stop() {
         this.tracker.stop()
+        this.emit('stop')
     }
 
     tick() {
         /** Shine! */
+        this.emit('tick')
+    }
+
+    noteon(...args) {
+        this.emit('noteon', ...args)
+    }
+
+    noteoff(...args) {
+        this.emit('noteoff', ...args)
     }
 }
 

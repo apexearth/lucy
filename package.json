@@ -1,15 +1,16 @@
 {
-  "name": "lucy",
+  "name": "@apexearth/lucy",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "mocha src/**/*.spec.js",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint src/**/*.js",
     "lint-fix": "eslint src/**/*.js --fix"
   },
   "keywords": [],
-  "author": "",
+  "author": "Christopher Jacobs <apexearth@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "easymidi": "^1.0.1",
@@ -17,6 +18,16 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "coveralls": "^3.0.2",
+    "mocha": "^5.2.0",
+    "mocha-lcov-reporter": "^1.3.0"
+  },
+  "nyc": {
+    "exclude": [
+      "src/**/*.spec.js"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -8,11 +8,27 @@ class Tracker extends EventEmitter {
         bpm = 120
     } = {}) {
         super()
-        this.bpm = bpm // Beats per minute.
-        this.bps = bpm / 60 // Beats per second.
-        this.mspb = 1000 / (bpm / 60) // Milliseconds per beat.
+        this.bpm = bpm
         this.delta = 0 // Track the ms from startTime to currentTime.
         this.pulseInterval = null
+    }
+
+    set bpm(val) {
+        this._bpm = val // Beats per minute.
+        this._bps = val / 60 // Beats per second.
+        this._mspb = 1000 / (val / 60) // Milliseconds per beat.
+    }
+
+    get bpm() {
+        return this._bpm
+    }
+
+    get bps() {
+        return this._bps
+    }
+
+    get mspb() {
+        return this._mspb
     }
 
     start() {
@@ -81,7 +97,7 @@ if (require.main === module) {
     tracker.start()
     let quarter = 0
     tracker.on('tick', () => {
-        if(tracker[4] !== quarter) {
+        if (tracker[4] !== quarter) {
             quarter = tracker[4]
             console.log(quarter)
         }
