@@ -23,43 +23,8 @@ export default class Tracker extends EventEmitter {
         return this._mspb
     }
 
-    get [.5](): number {
-        return Math.floor(this.delta / this.mspb / 8) + 1
-    }
-
-    get [1](): number {
-        return Math.floor(this.delta / this.mspb / 4) + 1
-    }
-
-    get [2](): number {
-        return Math.floor(this.delta / this.mspb / 2) + 1
-    }
-
-    get [4](): number {
-        return Math.floor(this.delta / this.mspb) + 1
-    }
-
-    get [8](): number {
-        return Math.floor(this.delta / this.mspb * 2) + 1
-    }
-
-    get [16](): number {
-        return Math.floor(this.delta / this.mspb * 4) + 1
-    }
-
-    get [32](): number {
-        return Math.floor(this.delta / this.mspb * 8) + 1
-    }
-
-    get [64](): number {
-        return Math.floor(this.delta / this.mspb * 16) + 1
-    }
-
-    get [128](): number {
-        return Math.floor(this.delta / this.mspb * 32) + 1
-    }
     public delta: number
-    public pulseInterval: NodeJS.Timeout | null = null
+    public pulseInterval?: NodeJS.Timeout
     public startTime: number = 0
     public currentTime: number = 0
     private _bpm: number = 0
@@ -97,6 +62,10 @@ export default class Tracker extends EventEmitter {
         this.delta = this.currentTime - this.startTime
         this.emit('tick', this.delta)
     }
+
+    public count(length: number): number {
+        return Math.floor(this.delta / this.mspb / length) + 1
+    }
 }
 
 if (require.main === module) {
@@ -104,8 +73,8 @@ if (require.main === module) {
     tracker.start()
     let quarter = 0
     tracker.on('tick', () => {
-        if (tracker[4] !== quarter) {
-            quarter = tracker[4]
+        if (tracker.count(1) !== quarter) {
+            quarter = tracker.count(1)
             console.log(quarter)
         }
     })

@@ -14,27 +14,24 @@ describe('Tracker', () => {
         expect(tracker.mspb).to.equal(500)
 
         // These values track which quarter note, sixteenth note, bar, etc... we're on.
-        tracker.delta = 5000
-        expect(tracker[.5]).to.equal(2)
-        expect(tracker[1]).to.equal(3)
-        expect(tracker[2]).to.equal(6)
-        expect(tracker[4]).to.equal(11)
-        expect(tracker[8]).to.equal(21)
-        expect(tracker[16]).to.equal(41)
-        expect(tracker[32]).to.equal(81)
-        expect(tracker[64]).to.equal(161)
-        expect(tracker[128]).to.equal(321)
+        tracker.delta = 499
+        expect(tracker.count(.125)).to.equal(8)
+        expect(tracker.count(.25)).to.equal(4)
+        expect(tracker.count(.5)).to.equal(2)
+        expect(tracker.count(1)).to.equal(1)
+        expect(tracker.count(2)).to.equal(1)
+        expect(tracker.count(4)).to.equal(1)
+        expect(tracker.count(8)).to.equal(1)
 
-        tracker.delta = 4900
-        expect(tracker[.5]).to.equal(2)
-        expect(tracker[1]).to.equal(3)
-        expect(tracker[2]).to.equal(5)
-        expect(tracker[4]).to.equal(10)
-        expect(tracker[8]).to.equal(20)
-        expect(tracker[16]).to.equal(40)
-        expect(tracker[32]).to.equal(79)
-        expect(tracker[64]).to.equal(157)
-        expect(tracker[128]).to.equal(314)
+        tracker.delta = 500
+        expect(tracker.count(.125)).to.equal(9)
+        expect(tracker.count(.25)).to.equal(5)
+        expect(tracker.count(.5)).to.equal(3)
+        expect(tracker.count(1)).to.equal(2)
+        expect(tracker.count(2)).to.equal(1)
+        expect(tracker.count(4)).to.equal(1)
+        expect(tracker.count(8)).to.equal(1)
+
     })
 
     it('start', function(done) {

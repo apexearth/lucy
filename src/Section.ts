@@ -16,4 +16,8 @@ export default class Section {
     public validate() {
         return true
     }
+
+    public composeNotes(param: { startingNote: string; timing: string; length: string }) {
+
+    }
 }

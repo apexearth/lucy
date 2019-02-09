@@ -14,4 +14,10 @@ export default class Track extends Section {
         super(track)
         this.tracker = track.tracker
     }
+
+    public createSection(): Section {
+        const section = new Section()
+        this.sections.push(section)
+        return section
+    }
 }
