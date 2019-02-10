@@ -1,15 +1,19 @@
+import compose, {ICompositionParameters} from './compose'
 import Note from './Note'
 
 export interface ISection {
     notes?: Note[]
+    duration: number
 }
 
 export default class Section {
     public notes: Note[] = []
+    public duration: number = 4
 
     constructor(section?: ISection) {
         if (section) {
             this.notes = section.notes || []
+            this.duration = section.duration
         }
     }
 
@@ -17,7 +21,8 @@ export default class Section {
         return true
     }
 
-    public composeNotes(param: { startingNote: string; timing: string; length: string }) {
-
+    public composeNotes(params: ICompositionParameters) {
+        const notes = compose(params)
+        this.notes = [...this.notes, ...notes]
     }
 }

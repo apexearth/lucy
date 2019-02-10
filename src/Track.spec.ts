@@ -13,7 +13,5 @@ describe('Track', () => {
 
     it('basics', () => {
         expect(track.sections).to.be.an('array')
-        expect(track.notes).to.be.an('array')
-        expect(track.validate()).to.equal(true)
     })
 })

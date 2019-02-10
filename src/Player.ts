@@ -52,8 +52,8 @@ if (require.main === module) {
     player.start()
     let quarter = 0
     player.tracker.on('tick', () => {
-        if (player.tracker[4] !== quarter) {
-            quarter = player.tracker[4]
+        if (player.tracker.count(1) !== quarter) {
+            quarter = player.tracker.count(1)
             console.log(quarter)
         }
     })
