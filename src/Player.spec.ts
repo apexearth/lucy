@@ -9,16 +9,18 @@ describe('Player', () => {
             duration: 4,
         })
         section.composeNotes({
+            duration: 4,
             startingNote: 'C3',
-            timing: 'Quarter',
-            duration: 'Eighth',
+            noteTiming: 'Quarter',
+            noteDuration: 'Eighth',
+            noteVelocity: 65,
             repeat: true,
         })
         expect(section.notes).to.deep.equal([
-            {note: 48, timeIndex: 1, duration: .5},
-            {note: 48, timeIndex: 2, duration: .5},
-            {note: 48, timeIndex: 3, duration: .5},
-            {note: 48, timeIndex: 4, duration: .5},
+            {note: 48, timeIndex: 1, duration: .5, velocity: 65},
+            {note: 48, timeIndex: 2, duration: .5, velocity: 65},
+            {note: 48, timeIndex: 3, duration: .5, velocity: 65},
+            {note: 48, timeIndex: 4, duration: .5, velocity: 65},
         ])
     })
 })

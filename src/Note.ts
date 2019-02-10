@@ -4,12 +4,14 @@ export interface INote {
     note: number
     duration: number
     velocity: number
+    timeIndex: number
 }
 
 export interface ILetterNote {
-    note: string
+    note: string | number
     duration: number
     velocity: number
+    timeIndex: number
 }
 
 export default class Note implements INote {
@@ -19,6 +21,7 @@ export default class Note implements INote {
             note: this.translateLetterNote(note.note),
             duration: note.duration,
             velocity: note.velocity,
+            timeIndex: note.timeIndex,
         }
     }
 
@@ -71,8 +74,12 @@ export default class Note implements INote {
     public duration: number = 1;
     public note: number = 64;
     public velocity: number = 100;
+    public timeIndex: number;
 
     constructor(note: INote) {
-        Object.assign(this, note)
+        this.duration = note.duration
+        this.note = note.note
+        this.velocity = note.velocity
+        this.timeIndex = note.timeIndex
     }
 }
