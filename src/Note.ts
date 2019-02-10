@@ -22,7 +22,36 @@ export default class Note implements INote {
         }
     }
 
-    public static translateLetterNote(letterNote: string): number {
+    public static translateTiming(timing: string | number): number {
+        if (typeof timing === 'number') {
+            return timing
+        }
+        timing = timing.toLowerCase()
+        switch (timing) {
+            case "whole":
+            case "bar":
+                return 4
+            case "half":
+                return 2
+            case"quarter":
+                return 1
+            case "eighth":
+                return .5
+            case "sixteenth":
+                return .25
+            case "thirty-second":
+                return .125
+            case "sixty-fourth":
+                return .0625
+            default:
+                throw new Error(`Invalid timing: ${timing}`)
+        }
+    }
+
+    public static translateLetterNote(letterNote: string | number): number {
+        if (typeof letterNote === 'number') {
+            return letterNote
+        }
         assert(/[A-Z]/.test(letterNote[0]))
         const letter = letterNote.charCodeAt(0) - 65
         let octave: number = parseInt(letterNote[letterNote.length - 1], 10)
