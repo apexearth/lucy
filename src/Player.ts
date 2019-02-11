@@ -1,6 +1,6 @@
 import {EventEmitter} from 'events'
 
-import midi from './midi'
+// import midi from './midi'
 import Track from './Track'
 import Tracker from './Tracker'
 
@@ -10,7 +10,8 @@ import Tracker from './Tracker'
 export default class Player extends EventEmitter {
     public tracker: Tracker = new Tracker()
     public tracks: Track[] = []
-    public output = midi.output('Lucy Output')
+
+    // public output?: object = midi.output('Lucy Output')
 
     constructor() {
         super()
