@@ -32,9 +32,11 @@ describe('Note', () => {
             note: 'C4',
             duration: 1,
             velocity: 127,
+            timeIndex: 500,
         })
         expect(note.note).to.equal(60)
         expect(note.duration).to.equal(1)
         expect(note.velocity).to.equal(127)
+        expect(note.timeIndex).to.equal(500)
     })
 })
