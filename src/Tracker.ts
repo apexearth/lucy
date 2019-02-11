@@ -30,6 +30,7 @@ export default class Tracker extends EventEmitter {
     private _bpm: number = 0
     private _bps: number = 0
     private _mspb: number = 0
+    private _loop?: { start: number, end: number, duration: number }
 
     constructor({
         bpm = 120,
@@ -57,14 +58,25 @@ export default class Tracker extends EventEmitter {
         this.stop()
     }
 
-    public tick() {
-        this.currentTime = Date.now()
+    public tick(time?: number) {
+        this.currentTime = typeof time === 'undefined' ? Date.now() : time
         this.delta = this.currentTime - this.startTime
+        if (this._loop) {
+            this.delta = this._loop.start * this.mspb - this.mspb
+            this.delta += (this.currentTime - this.startTime) % (this._loop.duration * this.mspb)
+        }
         this.emit('tick', this.delta)
     }
 
     public count(length: number): number {
         return Math.floor(this.delta / this.mspb / length) + 1
+    }
+
+    /**
+     * Loop from start to end inclusively.
+     */
+    public loop(start: number, end: number) {
+        this._loop = {start, end, duration: (end - start + 1)}
     }
 }
 

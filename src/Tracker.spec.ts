@@ -4,11 +4,11 @@ import Tracker from './Tracker'
 describe('Tracker', () => {
     let tracker: Tracker
 
-    beforeEach(function() {
+    beforeEach(() => {
         tracker = new Tracker({bpm: 120})
     })
 
-    it('basics', function() {
+    it('basics', () => {
         expect(tracker.bpm).to.equal(120)
         expect(tracker.bps).to.equal(2)
         expect(tracker.mspb).to.equal(500)
@@ -34,7 +34,7 @@ describe('Tracker', () => {
 
     })
 
-    it('start', function(done) {
+    it('start', (done) => {
         tracker.on('start', () => {
             tracker.kill()
             done()
@@ -42,12 +42,29 @@ describe('Tracker', () => {
         tracker.start()
     })
 
-    it('stop', function(done) {
+    it('stop', (done) => {
         tracker.on('tick', (delta) => {
             tracker.kill()
             expect(delta).to.be.gte(0)
             done()
         })
         tracker.start()
+    })
+
+    it('loop', () => {
+        tracker.loop(1, 4)
+        tracker.startTime = 0
+        tracker.tick(0)
+        expect(tracker.count(1)).to.equal(1)
+        tracker.tick(500)
+        expect(tracker.count(1)).to.equal(2)
+        tracker.tick(1000)
+        expect(tracker.count(1)).to.equal(3)
+        tracker.tick(1500)
+        expect(tracker.count(1)).to.equal(4)
+        tracker.tick(2000)
+        expect(tracker.count(1)).to.equal(1)
+        tracker.tick(2500)
+        expect(tracker.count(1)).to.equal(2)
     })
 })
