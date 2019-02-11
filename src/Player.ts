@@ -46,6 +46,13 @@ export default class Player extends EventEmitter {
         this.tracks.push(track)
         return track
     }
+
+    /**
+     * Loop from start to end inclusively.
+     */
+    public loop(start: number, end: number) {
+        this.tracker.loop(start, end)
+    }
 }
 
 if (require.main === module) {

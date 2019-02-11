@@ -22,5 +22,8 @@ describe('Player', () => {
             {note: 48, timeIndex: 3, duration: .5, velocity: 65},
             {note: 48, timeIndex: 4, duration: .5, velocity: 65},
         ])
+
+        player.loop(1, 4)
+        // TODO: Test for note output!
     })
 })
