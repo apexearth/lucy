@@ -1,5 +1,10 @@
 import {EventEmitter} from 'events'
 
+export interface ITimeComponent {
+    timeIndex: number
+    duration: number
+}
+
 /**
  * I track time and beats!
  */
@@ -23,7 +28,8 @@ export default class Tracker extends EventEmitter {
         return this._mspb
     }
 
-    public delta: number
+    public delta: number = 0
+    public beat: number = 0
     public pulseInterval?: NodeJS.Timeout
     public startTime: number = 0
     public currentTime: number = 0
@@ -37,7 +43,6 @@ export default class Tracker extends EventEmitter {
     } = {}) {
         super()
         this.bpm = bpm
-        this.delta = 0 // Track the ms from startTime to currentTime.
     }
 
     public start() {
@@ -65,6 +70,7 @@ export default class Tracker extends EventEmitter {
             this.delta = this._loop.start * this.mspb - this.mspb
             this.delta += (this.currentTime - this.startTime) % (this._loop.duration * this.mspb)
         }
+        this.beat = this.count(1)
         this.emit('tick', this.delta)
     }
 
@@ -77,6 +83,10 @@ export default class Tracker extends EventEmitter {
      */
     public loop(start: number, end: number) {
         this._loop = {start, end, duration: (end - start + 1)}
+    }
+
+    public isNow(component: ITimeComponent) {
+        return !(this.delta < component.timeIndex || this.delta >= component.timeIndex + component.duration)
     }
 }
 

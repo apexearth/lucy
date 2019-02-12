@@ -41,10 +41,15 @@ export default class Player extends EventEmitter {
         }
     }
 
-    public createTrack(): Track {
-        const track = new Track()
+    public addTrack(track: Track) {
+        track.on('note', (note) => this.emit('note', note))
         this.tracks.push(track)
         return track
+    }
+
+    public createTrack(): Track {
+        const track = new Track()
+        return this.addTrack(track)
     }
 
     /**

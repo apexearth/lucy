@@ -6,6 +6,7 @@ describe('Player', () => {
         const player = new Player()
         const track = player.createTrack()
         const section = track.createSection({
+            timeIndex: 0,
             duration: 4,
         })
         section.composeNotes({
@@ -16,7 +17,7 @@ describe('Player', () => {
             noteVelocity: 65,
             repeat: true,
         })
-        expect(section.notes).to.deep.equal([
+        expect(section.notes.map((note) => note.toJSON())).to.deep.equal([
             {note: 48, timeIndex: 1, duration: .5, velocity: 65},
             {note: 48, timeIndex: 2, duration: .5, velocity: 65},
             {note: 48, timeIndex: 3, duration: .5, velocity: 65},
@@ -29,7 +30,7 @@ describe('Player', () => {
         })
         player.loop(1, 4)
         player.tracker.startTime = 0
-        player.tick(500)
+        player.tick(0)
         expect(notesPlayed).to.deep.equal([])
         // TODO: Test for note output!
     })
