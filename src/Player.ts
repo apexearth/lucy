@@ -4,6 +4,8 @@ import {EventEmitter} from 'events'
 import Track from './Track'
 import Tracker from './Tracker'
 
+export * from './Note'
+
 /**
  * I play notes! (MIDI)
  */
@@ -15,7 +17,7 @@ export default class Player extends EventEmitter {
 
     constructor() {
         super()
-        this.tracker.on('tick', () => this.tick())
+        this.tracker.on('tick', () => this.update())
     }
 
     public start() {
@@ -28,21 +30,19 @@ export default class Player extends EventEmitter {
         this.emit('stop')
     }
 
-    public tick() {
-        /** Shine! */
-        this.emit('tick')
+    public tick(time?: number) {
+        this.tracker.tick(time)
+        this.emit('tick', time)
     }
 
-    public noteon(...args: any[]) {
-        this.emit('noteon', ...args)
-    }
-
-    public noteoff(...args: any[]) {
-        this.emit('noteoff', ...args)
+    public update() {
+        for (const track of this.tracks) {
+            track.update(this.tracker)
+        }
     }
 
     public createTrack(): Track {
-        const track = new Track({tracker: this.tracker})
+        const track = new Track()
         this.tracks.push(track)
         return track
     }

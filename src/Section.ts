@@ -1,5 +1,6 @@
 import compose, {ICompositionParameters} from './compose'
 import Note from './Note'
+import Tracker from "./Tracker";
 
 export interface ISection {
     notes?: Note[]
@@ -24,5 +25,11 @@ export default class Section {
     public composeNotes(params: ICompositionParameters) {
         const notes = compose(params)
         this.notes = [...this.notes, ...notes]
+    }
+
+    public update(tracker: Tracker) {
+        for (const note of this.notes) {
+            note.update(tracker)
+        }
     }
 }

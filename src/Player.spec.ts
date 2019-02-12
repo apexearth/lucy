@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import Player from './Player'
+import Player, {INote} from './Player'
 
 describe('Player', () => {
     it('usage basics', () => {
@@ -23,7 +23,14 @@ describe('Player', () => {
             {note: 48, timeIndex: 4, duration: .5, velocity: 65},
         ])
 
+        const notesPlayed: INote[] = []
+        player.on('note', (note: INote) => {
+            notesPlayed.push(note)
+        })
         player.loop(1, 4)
+        player.tracker.startTime = 0
+        player.tick(500)
+        expect(notesPlayed).to.deep.equal([])
         // TODO: Test for note output!
     })
 })

@@ -1,4 +1,5 @@
 import assert from 'assert'
+import Tracker from "./Tracker";
 
 export interface INote {
     note: number
@@ -17,12 +18,12 @@ export interface ILetterNote {
 export default class Note implements INote {
 
     public static create(note: ILetterNote): Note {
-        return {
+        return new Note({
             note: this.translateLetterNote(note.note),
             duration: note.duration,
             velocity: note.velocity,
             timeIndex: note.timeIndex,
-        }
+        })
     }
 
     public static translateTiming(timing: string | number): number {
@@ -81,5 +82,9 @@ export default class Note implements INote {
         this.note = note.note
         this.velocity = note.velocity
         this.timeIndex = note.timeIndex
+    }
+
+    public update(tracker: Tracker) {
+        return
     }
 }

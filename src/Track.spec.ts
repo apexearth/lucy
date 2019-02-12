@@ -8,7 +8,7 @@ describe('Track', () => {
 
     beforeEach(() => {
         tracker = new Tracker()
-        track = new Track({tracker})
+        track = new Track()
     })
 
     it('basics', () => {
