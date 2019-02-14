@@ -85,6 +85,10 @@ export default class Tracker extends EventEmitter {
         this._loop = {start, end, duration: (end - start + 1)}
     }
 
+    public removeLoop() {
+        this._loop = undefined
+    }
+
     public isNow(component: ITimeComponent, timeOffset: number = 0) {
         return !(
             this.delta < ((component.index - 1 + timeOffset) * this.mspb)

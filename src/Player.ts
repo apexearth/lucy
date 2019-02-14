@@ -58,6 +58,10 @@ export default class Player extends EventEmitter {
     public loop(start: number, end: number) {
         this.tracker.loop(start, end)
     }
+
+    public removeLoop() {
+        this.tracker.removeLoop()
+    }
 }
 
 if (require.main === module) {

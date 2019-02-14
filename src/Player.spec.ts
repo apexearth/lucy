@@ -65,6 +65,33 @@ describe('Player', () => {
             {note: 48, index: 4, duration: .5, velocity: 65},
             {note: 48, index: 1, duration: .5, velocity: 65},
         ])
+
+        player.removeLoop()
+        track.createSection({
+            index: 5,
+            duration: 4,
+        }).composeNotes({
+            duration: 4,
+            startingNote: 'D4',
+            noteTiming: 'Quarter',
+            noteDuration: 'Eighth',
+            noteVelocity: 65,
+            repeat: true,
+        })
+        time += 500
+        player.tick(time)
+        time += 500
+        player.tick(time)
+        expect(notesPlayed).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 48, index: 2, duration: .5, velocity: 65},
+            {note: 48, index: 3, duration: .5, velocity: 65},
+            {note: 48, index: 4, duration: .5, velocity: 65},
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 61, index: 6, duration: .5, velocity: 65},
+            {note: 61, index: 7, duration: .5, velocity: 65},
+        ])
+
         // TODO: Test for non looped, time offset section output.
     })
 })

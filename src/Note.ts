@@ -90,23 +90,23 @@ export default class Note extends EventEmitter implements INote, ITimeComponent 
     public update(tracker: Tracker, timeOffset: number) {
         if (tracker.isNow(this, timeOffset)) {
             if (!this.active) {
-                this.emit('note', this.toINote())
-                this.emit('noteon', this.toINote())
+                this.emit('note', this.toINote(timeOffset))
+                this.emit('noteon', this.toINote(timeOffset))
                 this.active = true
             }
         } else {
             if (this.active) {
-                this.emit('noteoff', this.toINote())
+                this.emit('noteoff', this.toINote(timeOffset))
                 this.active = false
             }
         }
     }
 
-    public toINote(): INote {
+    public toINote(timeOffset: number = 0): INote {
         return {
             note: this.note,
             velocity: this.velocity,
-            index: this.index,
+            index: this.index + timeOffset,
             duration: this.duration,
         };
     }
