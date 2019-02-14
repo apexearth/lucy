@@ -30,7 +30,7 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
     }
 
     public validate() {
-        assert(this.index >= 1, 'Indexes must start with 1.')
+        assert(this.index >= 1, 'Indexes must be gte 1.')
         return true
     }
 
@@ -44,6 +44,7 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
         for (const note of notes) {
             this.addNote(note)
         }
+        return this
     }
 
     public update(tracker: Tracker) {

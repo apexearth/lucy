@@ -90,10 +90,10 @@ export default class Tracker extends EventEmitter {
     }
 
     public isNow(component: ITimeComponent, timeOffset: number = 0) {
-        return !(
-            this.delta < ((component.index - 1 + timeOffset) * this.mspb)
-            ||
-            this.delta >= ((component.index - 1 + timeOffset + component.duration) * this.mspb)
+        return (
+            this.delta >= ((component.index - 1 + timeOffset) * this.mspb)
+            &&
+            this.delta < ((component.index - 1 + timeOffset + component.duration) * this.mspb)
         )
     }
 }

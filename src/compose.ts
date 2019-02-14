@@ -4,10 +4,10 @@ export default function compose(params: ICompositionParameters): Note[] {
     params.startingNote = Note.translateLetterNote(params.startingNote)
     params.noteTiming = Note.translateTiming(params.noteTiming)
     params.noteDuration = Note.translateTiming(params.noteDuration)
-    let index: number = 1
+    let index: number = params.index
     const currentNote: number = params.startingNote
     const notes = []
-    while (index < 4 + 1) {
+    while (index < params.index + params.duration) {
         notes.push(Note.create({
             note: currentNote,
             velocity: params.noteVelocity,
@@ -20,6 +20,7 @@ export default function compose(params: ICompositionParameters): Note[] {
 }
 
 export interface ICompositionParameters {
+    index: number
     duration: number
     startingNote: string | number
     noteTiming: string | number
