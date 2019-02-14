@@ -6,7 +6,7 @@ describe('Player', () => {
         const player = new Player()
         const track = player.createTrack()
         const section = track.createSection({
-            timeIndex: 0,
+            index: 1,
             duration: 4,
         })
         section.composeNotes({
@@ -17,11 +17,11 @@ describe('Player', () => {
             noteVelocity: 65,
             repeat: true,
         })
-        expect(section.notes.map((note) => note.toJSON())).to.deep.equal([
-            {note: 48, timeIndex: 1, duration: .5, velocity: 65},
-            {note: 48, timeIndex: 2, duration: .5, velocity: 65},
-            {note: 48, timeIndex: 3, duration: .5, velocity: 65},
-            {note: 48, timeIndex: 4, duration: .5, velocity: 65},
+        expect(section.notes.map((note) => note.toINote())).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 48, index: 2, duration: .5, velocity: 65},
+            {note: 48, index: 3, duration: .5, velocity: 65},
+            {note: 48, index: 4, duration: .5, velocity: 65},
         ])
 
         const notesPlayed: INote[] = []
@@ -30,8 +30,41 @@ describe('Player', () => {
         })
         player.loop(1, 4)
         player.tracker.startTime = 0
-        player.tick(0)
-        expect(notesPlayed).to.deep.equal([])
-        // TODO: Test for note output!
+        let time = 0
+        player.tick(time)
+        expect(notesPlayed).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+        ])
+        time += 500
+        player.tick(time)
+        expect(notesPlayed).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 48, index: 2, duration: .5, velocity: 65},
+        ])
+        time += 500
+        player.tick(time)
+        expect(notesPlayed).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 48, index: 2, duration: .5, velocity: 65},
+            {note: 48, index: 3, duration: .5, velocity: 65},
+        ])
+        time += 500
+        player.tick(time)
+        expect(notesPlayed).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 48, index: 2, duration: .5, velocity: 65},
+            {note: 48, index: 3, duration: .5, velocity: 65},
+            {note: 48, index: 4, duration: .5, velocity: 65},
+        ])
+        time += 500
+        player.tick(time)
+        expect(notesPlayed).to.deep.equal([
+            {note: 48, index: 1, duration: .5, velocity: 65},
+            {note: 48, index: 2, duration: .5, velocity: 65},
+            {note: 48, index: 3, duration: .5, velocity: 65},
+            {note: 48, index: 4, duration: .5, velocity: 65},
+            {note: 48, index: 1, duration: .5, velocity: 65},
+        ])
+        // TODO: Test for non looped, time offset section output.
     })
 })

@@ -1,17 +1,18 @@
+import assert from 'assert'
 import {EventEmitter} from "events";
 import compose, {ICompositionParameters} from './compose'
 import Note from './Note'
 import Tracker, {ITimeComponent} from "./Tracker";
 
-export interface ISection {
+export interface ISection extends ITimeComponent {
     notes?: Note[]
-    timeIndex: number
+    index: number
     duration: number
 }
 
 export default class Section extends EventEmitter implements ISection, ITimeComponent {
     public notes: Note[] = []
-    public timeIndex: number = 0
+    public index: number = 1
     public duration: number = 4
 
     constructor(section?: ISection) {
@@ -22,12 +23,14 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
                     this.addNote(note)
                 }
             }
-            this.timeIndex = section.timeIndex
+            this.index = section.index
             this.duration = section.duration
         }
+        this.validate()
     }
 
     public validate() {
+        assert(this.index >= 1, 'Indexes must start with 1.')
         return true
     }
 
@@ -48,7 +51,7 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
             return
         }
         for (const note of this.notes) {
-            note.update(tracker)
+            note.update(tracker, this.index - 1)
         }
     }
 }

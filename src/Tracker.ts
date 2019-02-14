@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events'
 
 export interface ITimeComponent {
-    timeIndex: number
+    index: number
     duration: number
 }
 
@@ -85,8 +85,12 @@ export default class Tracker extends EventEmitter {
         this._loop = {start, end, duration: (end - start + 1)}
     }
 
-    public isNow(component: ITimeComponent) {
-        return !(this.delta < component.timeIndex || this.delta >= component.timeIndex + component.duration)
+    public isNow(component: ITimeComponent, timeOffset: number = 0) {
+        return !(
+            this.delta < ((component.index - 1 + timeOffset) * this.mspb)
+            ||
+            this.delta >= ((component.index - 1 + timeOffset + component.duration) * this.mspb)
+        )
     }
 }
 

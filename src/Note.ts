@@ -2,18 +2,18 @@ import assert from 'assert'
 import {EventEmitter} from "events"
 import Tracker, {ITimeComponent} from "./Tracker"
 
-export interface INote extends ITimeComponent {
+export interface INote {
     note: number
-    duration: number
     velocity: number
-    timeIndex: number
+    index: number
+    duration: number
 }
 
-export interface ILetterNote extends ITimeComponent {
+export interface ILetterNote {
     note: string | number
-    duration: number
     velocity: number
-    timeIndex: number
+    index: number
+    duration: number
 }
 
 export default class Note extends EventEmitter implements INote, ITimeComponent {
@@ -21,9 +21,9 @@ export default class Note extends EventEmitter implements INote, ITimeComponent 
     public static create(note: ILetterNote): Note {
         return new Note({
             note: this.translateLetterNote(note.note),
-            duration: note.duration,
             velocity: note.velocity,
-            timeIndex: note.timeIndex,
+            index: note.index,
+            duration: note.duration,
         })
     }
 
@@ -73,40 +73,40 @@ export default class Note extends EventEmitter implements INote, ITimeComponent 
         return base + letter + mod
     }
 
-    public duration: number = 1
     public note: number = 64
     public velocity: number = 100
-    public timeIndex: number
+    public index: number
+    public duration: number = 1
     public active: boolean = false
 
     constructor(note: INote) {
         super()
-        this.duration = note.duration
         this.note = note.note
         this.velocity = note.velocity
-        this.timeIndex = note.timeIndex
+        this.index = note.index
+        this.duration = note.duration
     }
 
-    public update(tracker: Tracker) {
-        if (tracker.isNow(this)) {
+    public update(tracker: Tracker, timeOffset: number) {
+        if (tracker.isNow(this, timeOffset)) {
             if (!this.active) {
-                this.emit('note', this)
-                this.emit('noteon', this)
+                this.emit('note', this.toINote())
+                this.emit('noteon', this.toINote())
                 this.active = true
             }
         } else {
             if (this.active) {
-                this.emit('noteoff', this)
+                this.emit('noteoff', this.toINote())
                 this.active = false
             }
         }
     }
 
-    public toJSON(): INote {
+    public toINote(): INote {
         return {
             note: this.note,
             velocity: this.velocity,
-            timeIndex: this.timeIndex,
+            index: this.index,
             duration: this.duration,
         };
     }
