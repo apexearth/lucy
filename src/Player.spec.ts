@@ -203,7 +203,6 @@ describe('Player', () => {
         const player = new Player()
         let count: number = 0
         player.on('note', (note: INote) => {
-            process.stdout.write('.')
             count++
         })
         for (let i = 0; i < 16; i++) {
