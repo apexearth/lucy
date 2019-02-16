@@ -11,6 +11,7 @@
   },
   "jsRules": {},
   "rules": {
+    "no-reference": false,
     "indent": [
       "error",
       4
