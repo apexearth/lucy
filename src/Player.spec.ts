@@ -207,7 +207,7 @@ describe('Player', () => {
         })
         for (let i = 0; i < 16; i++) {
             const track = player.createTrack()
-            for (let k = 0; k < 1024; k++) {
+            for (let k = 0; k < 512; k++) {
                 track.createSection({
                     index: 1 + k * 4,
                     duration: 4,
