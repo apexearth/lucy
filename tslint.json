@@ -37,7 +37,8 @@
       "allow-leading-underscore"
     ],
     "no-var-requires": false,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "space-before-function-paren": false
   },
   "rulesDirectory": []
 }

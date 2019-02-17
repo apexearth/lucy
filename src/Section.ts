@@ -14,6 +14,7 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
     public notes: Note[] = []
     public index: number = 1
     public duration: number = 4
+    public active: boolean = false
 
     constructor(section?: ISection) {
         super();
@@ -36,6 +37,8 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
 
     public addNote(note: Note) {
         note.on('note', (n) => this.emit('note', n))
+        note.on('noteon', (n) => this.emit('noteon', n))
+        note.on('noteoff', (n) => this.emit('noteoff', n))
         this.notes.push(note)
     }
 
@@ -49,8 +52,15 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
 
     public update(tracker: Tracker) {
         if (!tracker.isNow(this)) {
+            if (this.active) {
+                for (const note of this.notes) {
+                    note.update(tracker, this.index - 1)
+                }
+                this.active = false
+            }
             return
         }
+        this.active = true
         for (const note of this.notes) {
             note.update(tracker, this.index - 1)
         }

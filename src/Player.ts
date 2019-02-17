@@ -43,6 +43,8 @@ export default class Player extends EventEmitter {
 
     public addTrack(track: Track) {
         track.on('note', (note) => this.emit('note', note))
+        track.on('noteon', (note) => this.emit('noteon', note))
+        track.on('noteoff', (note) => this.emit('noteoff', note))
         this.tracks.push(track)
         return track
     }

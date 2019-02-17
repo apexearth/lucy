@@ -18,6 +18,8 @@ export default class Track extends EventEmitter {
 
     public addSection(section: Section): Section {
         section.on('note', (note) => this.emit('note', note))
+        section.on('noteon', (note) => this.emit('noteon', note))
+        section.on('noteoff', (note) => this.emit('noteoff', note))
         this.sections.push(section)
         return section
     }
