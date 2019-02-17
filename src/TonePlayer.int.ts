@@ -25,6 +25,9 @@ describe('TonePlayer', () => {
             }
         }
         player.start()
-        setTimeout(done, 3000)
+        setTimeout(() => {
+            done()
+            process.exit(0)
+        }, 3000)
     })
 })
