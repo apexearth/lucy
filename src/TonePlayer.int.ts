@@ -2,7 +2,7 @@ import TonePlayer, {INote} from './TonePlayer'
 
 describe('TonePlayer', () => {
     it('play notes!', function (done) {
-        this.timeout(4000)
+        this.timeout(6000)
         const player = new TonePlayer()
         for (let i = 0; i < 2; i++) {
             const track = player.createTrack()
@@ -24,10 +24,12 @@ describe('TonePlayer', () => {
                 }
             }
         }
-        player.start()
+        setTimeout(() => {
+            player.start()
+        }, 500)
         setTimeout(() => {
             done()
             process.exit(0)
-        }, 3000)
+        }, 5000)
     })
 })

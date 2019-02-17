@@ -15,9 +15,10 @@ export default class TonePlayer extends Player {
         const speaker = new Speaker()
         context.resume()
         context.pipe(speaker)
-
+        let last = Date.now()
         this.on('note', (note) => {
-            console.log(JSON.stringify(note))
+            console.log(Date.now() - last, JSON.stringify(note))
+            last = Date.now()
             const amp: any = context.createGain()
             amp.gain.setValueAtTime(0.35, this.bufferTime + context.currentTime)
             amp.gain.linearRampToValueAtTime(.15, this.bufferTime + context.currentTime + .05)

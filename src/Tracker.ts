@@ -47,13 +47,13 @@ export default class Tracker extends EventEmitter {
 
     public start() {
         this.startTime = Date.now()
-        this.pulseInterval = setInterval(() => this.tick(), 1)
         this.emit('start')
+        this.tick()
     }
 
     public stop() {
         if (this.pulseInterval) {
-            clearInterval(this.pulseInterval)
+            clearTimeout(this.pulseInterval)
         }
         this.emit('stop')
     }
@@ -72,6 +72,7 @@ export default class Tracker extends EventEmitter {
         }
         this.beat = this.count(1)
         this.emit('tick', this.delta)
+        this.pulseInterval = setTimeout(() => this.tick(), 0)
     }
 
     public count(length: number): number {
