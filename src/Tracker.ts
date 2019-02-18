@@ -37,6 +37,7 @@ export default class Tracker extends EventEmitter {
     private _bps: number = 0
     private _mspb: number = 0
     private _loop?: { start: number, end: number, duration: number }
+    private _running: boolean = false
 
     constructor({
         bpm = 120,
@@ -46,12 +47,14 @@ export default class Tracker extends EventEmitter {
     }
 
     public start() {
+        this._running = true
         this.startTime = Date.now()
         this.emit('start')
         this.tick()
     }
 
     public stop() {
+        this._running = false
         if (this.pulseInterval) {
             clearTimeout(this.pulseInterval)
         }
@@ -72,7 +75,9 @@ export default class Tracker extends EventEmitter {
         }
         this.beat = this.count(1)
         this.emit('tick', this.delta)
-        this.pulseInterval = setTimeout(() => this.tick(), 0)
+        if (this._running) {
+            this.pulseInterval = setTimeout(() => this.tick(), 0)
+        }
     }
 
     public count(length: number): number {
