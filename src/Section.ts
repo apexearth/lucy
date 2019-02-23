@@ -1,6 +1,6 @@
 import assert from 'assert'
 import {EventEmitter} from "events";
-import compose, {ICompositionParameters} from './compose'
+import compose, {EComposeTypes, ICompositionParameters} from './compose'
 import Note from './Note'
 import Tracker, {ITimeComponent} from "./Tracker";
 
@@ -15,6 +15,7 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
     public index: number = 1
     public duration: number = 4
     public active: boolean = false
+    private _lastComposeParameters?: ICompositionParameters
 
     constructor(section?: ISection) {
         super();
@@ -42,11 +43,21 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
         this.notes.push(note)
     }
 
-    public composeNotes(params: ICompositionParameters) {
-        const notes = compose(params)
+    public composeNotes(params: ISectionCompositionParameters) {
+        let modifiedParams: ICompositionParameters
+        if (this._lastComposeParameters) {
+            modifiedParams = Object.assign({}, this._lastComposeParameters, params) as ICompositionParameters
+            if (params.index === undefined) {
+                modifiedParams.index = this._lastComposeParameters.index + this._lastComposeParameters.duration
+            }
+        } else {
+            modifiedParams = params as ICompositionParameters
+        }
+        const notes = compose(modifiedParams)
         for (const note of notes) {
             this.addNote(note)
         }
+        this._lastComposeParameters = modifiedParams as ICompositionParameters
         return this
     }
 
@@ -65,4 +76,20 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
             note.update(tracker, this.index - 1)
         }
     }
+}
+
+/**
+ * Pretty much a match for ICompositionParameters
+ *  except all values are optional since they're
+ *  capable of utilizing previous composition
+ *  parameter values.
+ */
+export interface ISectionCompositionParameters {
+    index?: number
+    duration?: number
+    type?: EComposeTypes
+    startingNote?: string | number
+    noteTiming?: string | number
+    noteDuration?: string | number
+    noteVelocity?: number
 }

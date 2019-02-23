@@ -1,3 +1,4 @@
+import {EComposeTypes} from "./compose";
 import TonePlayer, {INote} from './TonePlayer'
 
 describe('TonePlayer', () => {
@@ -15,11 +16,11 @@ describe('TonePlayer', () => {
                     section.composeNotes({
                         index: j,
                         duration: .125,
+                        type: EComposeTypes.Repeating,
                         startingNote: Math.floor(Math.random() * 24 + 48),
                         noteTiming: 'thirty-second',
                         noteDuration: 'thirty-second',
                         noteVelocity: 65,
-                        repeat: true,
                     })
                 }
             }

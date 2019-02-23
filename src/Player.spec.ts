@@ -1,4 +1,5 @@
 import {expect} from 'chai'
+import {EComposeTypes} from "./compose"
 import Player, {INote} from './Player'
 
 describe('Player', () => {
@@ -12,11 +13,11 @@ describe('Player', () => {
         section.composeNotes({
             index: 1,
             duration: 4,
+            type: EComposeTypes.Repeating,
             startingNote: 'C3',
             noteTiming: 'Quarter',
             noteDuration: 'Eighth',
             noteVelocity: 65,
-            repeat: true,
         })
         expect(section.notes.map((note) => note.toINote())).to.deep.equal([
             {note: 48, index: 1, duration: .5, velocity: 65},
@@ -82,11 +83,11 @@ describe('Player', () => {
         }).composeNotes({
             index: 1,
             duration: 4,
+            type: EComposeTypes.Repeating,
             startingNote: 'D4',
             noteTiming: 'Quarter',
             noteDuration: 'Eighth',
             noteVelocity: 65,
-            repeat: true,
         })
         time += 500
         player.tick(time)
@@ -120,35 +121,17 @@ describe('Player', () => {
                 }).composeNotes({
                     index: 1,
                     duration: 1,
+                    type: EComposeTypes.Repeating,
                     startingNote: 'C3',
                     noteTiming: 'Eighth',
                     noteDuration: 'Eighth',
                     noteVelocity: 65,
-                    repeat: true,
                 }).composeNotes({
-                    index: 2,
-                    duration: 1,
                     startingNote: 'D3',
-                    noteTiming: 'Eighth',
-                    noteDuration: 'Eighth',
-                    noteVelocity: 65,
-                    repeat: true,
                 }).composeNotes({
-                    index: 3,
-                    duration: 1,
                     startingNote: 'E3',
-                    noteTiming: 'Eighth',
-                    noteDuration: 'Eighth',
-                    noteVelocity: 65,
-                    repeat: true,
                 }).composeNotes({
-                    index: 4,
-                    duration: 1,
                     startingNote: 'F3',
-                    noteTiming: 'Eighth',
-                    noteDuration: 'Eighth',
-                    noteVelocity: 65,
-                    repeat: true,
                 })
             }
         }
@@ -214,35 +197,17 @@ describe('Player', () => {
                 }).composeNotes({
                     index: 1,
                     duration: 1,
+                    type: EComposeTypes.Repeating,
                     startingNote: 'C3',
                     noteTiming: 'Eighth',
                     noteDuration: 'Eighth',
                     noteVelocity: 65,
-                    repeat: true,
                 }).composeNotes({
-                    index: 2,
-                    duration: 1,
                     startingNote: 'D3',
-                    noteTiming: 'Eighth',
-                    noteDuration: 'Eighth',
-                    noteVelocity: 65,
-                    repeat: true,
                 }).composeNotes({
-                    index: 3,
-                    duration: 1,
                     startingNote: 'E3',
-                    noteTiming: 'Eighth',
-                    noteDuration: 'Eighth',
-                    noteVelocity: 65,
-                    repeat: true,
                 }).composeNotes({
-                    index: 4,
-                    duration: 1,
                     startingNote: 'F3',
-                    noteTiming: 'Eighth',
-                    noteDuration: 'Eighth',
-                    noteVelocity: 65,
-                    repeat: true,
                 })
             }
         }
