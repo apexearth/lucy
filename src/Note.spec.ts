@@ -1,33 +1,39 @@
 import {expect} from 'chai'
-import Note from './Note'
+import Note, {translateLetterNote, translateTiming} from './Note'
 
 describe('Note', () => {
     it('timing string conversion', () => {
-        expect(Note.translateTiming('quarter')).to.equal(1)
-        expect(Note.translateTiming('Quarter')).to.equal(1)
+        expect(translateTiming('quarter')).to.equal(1)
+        expect(translateTiming('Quarter')).to.equal(1)
 
-        expect(Note.translateTiming('half')).to.equal(2)
+        expect(translateTiming('half')).to.equal(2)
 
-        expect(Note.translateTiming('whole')).to.equal(4)
-        expect(Note.translateTiming('bar')).to.equal(4)
+        expect(translateTiming('whole')).to.equal(4)
+        expect(translateTiming('bar')).to.equal(4)
 
-        expect(Note.translateTiming('eighth')).to.equal(.5)
+        expect(translateTiming('eighth')).to.equal(.5)
 
-        expect(Note.translateTiming('sixteenth')).to.equal(.25)
-        expect(Note.translateTiming('thirty-second')).to.equal(.125)
-        expect(Note.translateTiming('sixty-fourth')).to.equal(.0625)
-        expect(Note.translateTiming(.0625)).to.equal(.0625)
+        expect(translateTiming('sixteenth')).to.equal(.25)
+        expect(translateTiming('thirty-second')).to.equal(.125)
+        expect(translateTiming('sixty-fourth')).to.equal(.0625)
+        expect(translateTiming(.0625)).to.equal(.0625)
     })
     it('letter note conversion', () => {
-        expect(Note.translateLetterNote('A2')).to.equal(46)
-        expect(Note.translateLetterNote('B2')).to.equal(47)
-        expect(Note.translateLetterNote('C3')).to.equal(48)
-        expect(Note.translateLetterNote('A3')).to.equal(58)
-        expect(Note.translateLetterNote('B3')).to.equal(59)
-        expect(Note.translateLetterNote('C4')).to.equal(60)
-        expect(Note.translateLetterNote('C#4')).to.equal(61)
-        expect(Note.translateLetterNote('Cb4')).to.equal(59)
-        expect(Note.translateLetterNote(59)).to.equal(59)
+        expect(translateLetterNote(59)).to.equal(59)
+
+        expect(translateLetterNote('A2')).to.equal(45)
+        expect(translateLetterNote('A#2')).to.equal(46)
+        expect(translateLetterNote('B2')).to.equal(47)
+        expect(translateLetterNote('C3')).to.equal(48)
+        expect(translateLetterNote('C#3')).to.equal(49)
+        expect(translateLetterNote('D3')).to.equal(50)
+        expect(translateLetterNote('Eb3')).to.equal(51)
+        expect(translateLetterNote('E3')).to.equal(52)
+        expect(translateLetterNote('F3')).to.equal(53)
+        expect(translateLetterNote('F#3')).to.equal(54)
+        expect(translateLetterNote('G3')).to.equal(55)
+        expect(translateLetterNote('Ab3')).to.equal(56)
+        expect(translateLetterNote('A3')).to.equal(57)
     })
     it('create Note from ILetterNote', () => {
         const note = Note.create({
