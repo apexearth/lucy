@@ -26,6 +26,13 @@ export const letters: any = {
     G: 11,
 }
 
+export const parts = (letterNote: string) => {
+    return {
+        letter: (letterNote[1] === '#' || letterNote[1] === 'b') ? letterNote.substring(0, 2) : letterNote[0],
+        octave: parseInt(letterNote[letterNote.length - 1], 10),
+    }
+}
+
 export const translateTiming = (timing: string | number): number => {
     if (typeof timing === 'number') {
         return timing
@@ -126,6 +133,10 @@ export default class Note extends EventEmitter implements INote, ITimeComponent 
             velocity: this.velocity,
             index: this.index + timeOffset,
             duration: this.duration,
-        };
+        }
+    }
+
+    public next(params: { down?: string, up?: string }) {
+
     }
 }

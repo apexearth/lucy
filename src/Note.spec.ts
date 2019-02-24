@@ -1,8 +1,12 @@
 import {expect} from 'chai'
-import Note, {translateLetterNote, translateTiming} from './Note'
+import Note, {
+    parts,
+    translateLetterNote,
+    translateTiming,
+} from './Note'
 
 describe('Note', () => {
-    it('timing string conversion', () => {
+    it('translateTiming', () => {
         expect(translateTiming('quarter')).to.equal(1)
         expect(translateTiming('Quarter')).to.equal(1)
 
@@ -18,7 +22,7 @@ describe('Note', () => {
         expect(translateTiming('sixty-fourth')).to.equal(.0625)
         expect(translateTiming(.0625)).to.equal(.0625)
     })
-    it('letter note conversion', () => {
+    it('translateLetterNote', () => {
         expect(translateLetterNote(59)).to.equal(59)
 
         expect(translateLetterNote('A2')).to.equal(45)
@@ -35,7 +39,7 @@ describe('Note', () => {
         expect(translateLetterNote('Ab3')).to.equal(56)
         expect(translateLetterNote('A3')).to.equal(57)
     })
-    it('create Note from ILetterNote', () => {
+    it('Note.create', () => {
         const note = Note.create({
             note: 'C4',
             duration: 1,
@@ -46,5 +50,9 @@ describe('Note', () => {
         expect(note.duration).to.equal(1)
         expect(note.velocity).to.equal(127)
         expect(note.index).to.equal(1)
+    })
+    it('parts', () => {
+        expect(parts('F#3')).to.deep.equal({letter: 'F#', octave: 3})
+        expect(parts('C5')).to.deep.equal({letter: 'C', octave: 5})
     })
 })
