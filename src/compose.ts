@@ -1,24 +1,15 @@
+///<reference path="compose.d.ts"/>
 import assert from 'assert'
+import {scale} from 'tonal-key'
 import Note from './Note'
 
-export default function compose(params: ICompositionParameters): Note[] {
-    switch (params.type) {
-        case EComposeTypes.Repeating:
-            return composeRepeating(params)
-        default:
-            throw new Error(`Unknown type: ${params.type}`)
-    }
-}
-
-function composeRepeating(params: ICompositionParameters): Note[] {
+export function composeRepeating(params: IComposeRepeating): Note[] {
     assert(params.index !== undefined, 'A valid index is required.')
     assert(params.duration !== undefined, 'A valid duration is required.')
-    assert(params.type !== undefined, 'A valid type is required.')
     assert(params.startingNote !== undefined, 'A valid startingNote is required.')
     assert(params.noteTiming !== undefined, 'A valid noteTiming is required.')
     assert(params.noteDuration !== undefined, 'A valid noteDuration is required.')
     assert(params.noteVelocity !== undefined, 'A valid noteVelocity is required.')
-
     const note: number = Note.translateLetterNote(params.startingNote)
     const noteTiming = Note.translateTiming(params.noteTiming)
     const noteDuration = Note.translateTiming(params.noteDuration)
@@ -36,17 +27,31 @@ function composeRepeating(params: ICompositionParameters): Note[] {
     return notes
 }
 
-export interface ICompositionParameters {
+export function composeArpeggio(params: IComposeArpeggio): Note[] {
+    const key = scale(params.key)
+    return []
+}
+
+export interface ICompose {
     index: number
     duration: number
-    type: EComposeTypes
+}
+
+export interface IComposeRepeating extends ICompose {
+    index: number
+    duration: number
     startingNote: string | number
     noteTiming: string | number
     noteDuration: string | number
     noteVelocity: number
 }
 
-export enum EComposeTypes {
-    Repeating,
-    Arpeggio,
+export interface IComposeArpeggio extends ICompose {
+    index: number
+    duration: number
+    key: string
+    startingNote: string | number
+    noteTiming: string | number
+    noteDuration: string | number
+    noteVelocity: number
 }

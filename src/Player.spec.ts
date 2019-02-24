@@ -1,5 +1,4 @@
 import {expect} from 'chai'
-import {EComposeTypes} from "./compose"
 import Player, {INote} from './Player'
 
 describe('Player', () => {
@@ -10,10 +9,9 @@ describe('Player', () => {
             index: 1,
             duration: 4,
         })
-        section.composeNotes({
+        section.composeRepeating({
             index: 1,
             duration: 4,
-            type: EComposeTypes.Repeating,
             startingNote: 'C3',
             noteTiming: 'Quarter',
             noteDuration: 'Eighth',
@@ -80,10 +78,9 @@ describe('Player', () => {
         track.createSection({
             index: 5,
             duration: 4,
-        }).composeNotes({
+        }).composeRepeating({
             index: 1,
             duration: 4,
-            type: EComposeTypes.Repeating,
             startingNote: 'D4',
             noteTiming: 'Quarter',
             noteDuration: 'Eighth',
@@ -118,19 +115,18 @@ describe('Player', () => {
                 track.createSection({
                     index: 1 + k * 4,
                     duration: 4,
-                }).composeNotes({
+                }).composeRepeating({
                     index: 1,
                     duration: 1,
-                    type: EComposeTypes.Repeating,
                     startingNote: 'C3',
                     noteTiming: 'Eighth',
                     noteDuration: 'Eighth',
                     noteVelocity: 65,
-                }).composeNotes({
+                }).composeRepeating({
                     startingNote: 'D3',
-                }).composeNotes({
+                }).composeRepeating({
                     startingNote: 'E3',
-                }).composeNotes({
+                }).composeRepeating({
                     startingNote: 'F3',
                 })
             }
@@ -194,19 +190,18 @@ describe('Player', () => {
                 track.createSection({
                     index: 1 + k * 4,
                     duration: 4,
-                }).composeNotes({
+                }).composeRepeating({
                     index: 1,
                     duration: 1,
-                    type: EComposeTypes.Repeating,
                     startingNote: 'C3',
                     noteTiming: 'Eighth',
                     noteDuration: 'Eighth',
                     noteVelocity: 65,
-                }).composeNotes({
+                }).composeRepeating({
                     startingNote: 'D3',
-                }).composeNotes({
+                }).composeRepeating({
                     startingNote: 'E3',
-                }).composeNotes({
+                }).composeRepeating({
                     startingNote: 'F3',
                 })
             }

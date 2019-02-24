@@ -1,6 +1,7 @@
 import assert from 'assert'
 import {EventEmitter} from "events";
-import compose, {EComposeTypes, ICompositionParameters} from './compose'
+import * as Compose from './compose'
+import {IComposeRepeating} from "./compose";
 import Note from './Note'
 import Tracker, {ITimeComponent} from "./Tracker";
 
@@ -15,7 +16,8 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
     public index: number = 1
     public duration: number = 4
     public active: boolean = false
-    private _lastComposeParameters?: ICompositionParameters
+
+    private _previousParameters?: Compose.ICompose
 
     constructor(section?: ISection) {
         super();
@@ -31,6 +33,31 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
         this.validate()
     }
 
+    public absorbPreviousParameters(params: Compose.ICompose) {
+        let modifiedParams: Compose.ICompose
+        if (this._previousParameters) {
+            modifiedParams = Object.assign({}, this._previousParameters, params) as Compose.ICompose
+            if (params.index === undefined) {
+                modifiedParams.index = (
+                    this._previousParameters.index + this._previousParameters.duration
+                )
+            }
+        } else {
+            modifiedParams = params
+        }
+        return modifiedParams
+    }
+
+    public composeRepeating(params: IComposeRepeating | any) {
+        params = this.absorbPreviousParameters(params)
+        const notes = Compose.composeRepeating(params)
+        for (const note of notes) {
+            this.addNote(note)
+        }
+        this._previousParameters = params
+        return this
+    }
+
     public validate() {
         assert(this.index >= 1, 'Indexes must be gte 1.')
         return true
@@ -41,24 +68,6 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
         note.on('noteon', (n) => this.emit('noteon', n))
         note.on('noteoff', (n) => this.emit('noteoff', n))
         this.notes.push(note)
-    }
-
-    public composeNotes(params: ISectionCompositionParameters) {
-        let modifiedParams: ICompositionParameters
-        if (this._lastComposeParameters) {
-            modifiedParams = Object.assign({}, this._lastComposeParameters, params) as ICompositionParameters
-            if (params.index === undefined) {
-                modifiedParams.index = this._lastComposeParameters.index + this._lastComposeParameters.duration
-            }
-        } else {
-            modifiedParams = params as ICompositionParameters
-        }
-        const notes = compose(modifiedParams)
-        for (const note of notes) {
-            this.addNote(note)
-        }
-        this._lastComposeParameters = modifiedParams as ICompositionParameters
-        return this
     }
 
     public update(tracker: Tracker) {
@@ -76,20 +85,4 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
             note.update(tracker, this.index - 1)
         }
     }
-}
-
-/**
- * Pretty much a match for ICompositionParameters
- *  except all values are optional since they're
- *  capable of utilizing previous composition
- *  parameter values.
- */
-export interface ISectionCompositionParameters {
-    index?: number
-    duration?: number
-    type?: EComposeTypes
-    startingNote?: string | number
-    noteTiming?: string | number
-    noteDuration?: string | number
-    noteVelocity?: number
 }

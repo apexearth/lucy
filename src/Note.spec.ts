@@ -16,6 +16,7 @@ describe('Note', () => {
         expect(Note.translateTiming('sixteenth')).to.equal(.25)
         expect(Note.translateTiming('thirty-second')).to.equal(.125)
         expect(Note.translateTiming('sixty-fourth')).to.equal(.0625)
+        expect(Note.translateTiming(.0625)).to.equal(.0625)
     })
     it('letter note conversion', () => {
         expect(Note.translateLetterNote('A2')).to.equal(46)
@@ -26,6 +27,7 @@ describe('Note', () => {
         expect(Note.translateLetterNote('C4')).to.equal(60)
         expect(Note.translateLetterNote('C#4')).to.equal(61)
         expect(Note.translateLetterNote('Cb4')).to.equal(59)
+        expect(Note.translateLetterNote(59)).to.equal(59)
     })
     it('create Note from ILetterNote', () => {
         const note = Note.create({
