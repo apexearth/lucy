@@ -1,142 +1,99 @@
+///<reference path="compose.d.ts"/>
 import assert from 'assert'
 import {EventEmitter} from "events"
 import Tracker, {ITimeComponent} from "./Tracker"
 
+import * as Tonal from 'tonal'
+
+export interface IMidiNote {
+    midi: number
+    velocity: number
+    index: number
+    duration: number
+}
+
 export interface INote {
-    note: number
+    note: string
     velocity: number
     index: number
     duration: number
-}
-
-export interface ILetterNote {
-    note: string | number
-    velocity: number
-    index: number
-    duration: number
-}
-
-export const letters: any = {
-    A: 1,
-    B: 3,
-    C: 4,
-    D: 6,
-    E: 8,
-    F: 9,
-    G: 11,
-}
-
-export const parts = (letterNote: string) => {
-    return {
-        letter: (letterNote[1] === '#' || letterNote[1] === 'b') ? letterNote.substring(0, 2) : letterNote[0],
-        octave: parseInt(letterNote[letterNote.length - 1], 10),
-    }
-}
-
-export const translateTiming = (timing: string | number): number => {
-    if (typeof timing === 'number') {
-        return timing
-    }
-    timing = timing.toLowerCase()
-    switch (timing) {
-        case "whole":
-        case "bar":
-            return 4
-        case "half":
-            return 2
-        case"quarter":
-            return 1
-        case "eighth":
-            return .5
-        case "sixteenth":
-            return .25
-        case "thirty-second":
-            return .125
-        case "sixty-fourth":
-            return .0625
-        default:
-            throw new Error(`Invalid timing: ${timing}`)
-    }
-}
-
-export const translateLetter = (letter: string | number): number => {
-    if (typeof letter === 'number') {
-        return letter
-    }
-    assert(letter.length === 1, 'translateLetter expects a single character input')
-    assert(/[A-G]/.test(letter))
-    return letters[letter]
-}
-
-export const translateLetterNote = (letterNote: string | number): number => {
-    if (typeof letterNote === 'number') {
-        return letterNote
-    }
-    const letter = translateLetter(letterNote[0])
-    let octave: number = parseInt(letterNote[letterNote.length - 1], 10)
-    if (letter === 1 || letter === 3) {
-        octave += 1
-    }
-    const base = 8 + octave * 12
-    let mod = 0
-    if (letterNote[1] === '#') {
-        mod = 1
-    } else if (letterNote[1] === 'b') {
-        mod = -1
-    }
-    return base + letter + mod
 }
 
 export default class Note extends EventEmitter implements INote, ITimeComponent {
 
-    public static create(note: ILetterNote): Note {
-        return new Note({
-            note: translateLetterNote(note.note),
-            velocity: note.velocity,
-            index: note.index,
-            duration: note.duration,
-        })
+    public static from(opts: any, note: string) {
+        return Tonal.Note.from(opts, note)
     }
 
-    public note: number = 64
+    public static midi(note: string | number): number | null {
+        return Tonal.midi(note)
+    }
+
+    public static time(timing: string | number): number {
+        if (typeof timing === 'number') {
+            return timing
+        }
+        timing = timing.toLowerCase()
+        switch (timing) {
+            case "whole":
+            case "bar":
+                return 4
+            case "half":
+                return 2
+            case"quarter":
+                return 1
+            case "eighth":
+                return .5
+            case "sixteenth":
+                return .25
+            case "thirty-second":
+                return .125
+            case "sixty-fourth":
+                return .0625
+            default:
+                throw new Error(`Invalid timing: ${timing}`)
+        }
+    }
+
+    public static create(params: INote): Note {
+        return new Note(params)
+    }
+
+    public note: string = 'C3'
     public velocity: number = 100
     public index: number
     public duration: number = 1
     public active: boolean = false
 
-    constructor(note: INote) {
+    constructor(params: INote) {
         super()
-        this.note = note.note
-        this.velocity = note.velocity
-        this.index = note.index
-        this.duration = note.duration
+        this.note = params.note
+        this.velocity = params.velocity
+        this.index = params.index
+        this.duration = params.duration
     }
 
     public update(tracker: Tracker, timeOffset: number) {
         if (tracker.isNow(this, timeOffset)) {
             if (!this.active) {
-                this.emit('note', this.toINote(timeOffset))
-                this.emit('noteon', this.toINote(timeOffset))
+                this.emit('note', this.toMidi(timeOffset))
+                this.emit('noteon', this.toMidi(timeOffset))
                 this.active = true
             }
         } else {
             if (this.active) {
-                this.emit('noteoff', this.toINote(timeOffset))
+                this.emit('noteoff', this.toMidi(timeOffset))
                 this.active = false
             }
         }
     }
 
-    public toINote(timeOffset: number = 0): INote {
+    public toMidi(timeOffset: number = 0): IMidiNote {
         return {
-            note: this.note,
+            midi: Note.midi(this.note) as number,
             velocity: this.velocity,
             index: this.index + timeOffset,
             duration: this.duration,
         }
-    }
-
-    public next(params: { down?: string, up?: string }) {
-
     }
 }

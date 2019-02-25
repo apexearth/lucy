@@ -13,7 +13,7 @@ describe('Tracker', () => {
         expect(tracker.bps).to.equal(2)
         expect(tracker.mspb).to.equal(500)
 
-        // These values track which quarter note, sixteenth note, bar, etc... we're on.
+        // These values track which quarter midi, sixteenth midi, bar, etc... we're on.
         tracker.delta = 499
         expect(tracker.count(.125)).to.equal(8)
         expect(tracker.count(.25)).to.equal(4)

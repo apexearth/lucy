@@ -1,5 +1,5 @@
 import {EComposeTypes} from "./compose";
-import TonePlayer, {INote} from './TonePlayer'
+import TonePlayer, {IMidiNote} from './TonePlayer'
 
 describe('TonePlayer', () => {
     it('play notes!', function (done) {

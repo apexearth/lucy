@@ -16,8 +16,8 @@
   "dependencies": {
     "easymidi": "^1.0.1",
     "speaker": "^0.4.1",
+    "tonal": "^2.2.1",
     "tonal-chord": "^2.2.1",
-    "tonal-key": "^2.2.1",
     "web-audio-engine": "^0.13.4"
   },
   "devDependencies": {

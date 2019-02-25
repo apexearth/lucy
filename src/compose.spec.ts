@@ -1,9 +1,9 @@
 import {expect} from 'chai'
 import * as Compose from './compose'
-import Note, {INote} from "./Note"
+import Note, {IMidiNote} from "./Note"
 
-const testEquals = (actual: Note[], expected: INote[]) => {
-    expect(actual.map((note) => note.toINote())).to.deep.equal(expected)
+const testEquals = (actual: Note[], expected: IMidiNote[]) => {
+    expect(actual.map((note) => note.toMidi())).to.deep.equal(expected)
 }
 
 describe('compose', () => {
@@ -18,10 +18,10 @@ describe('compose', () => {
                 noteVelocity: 65,
             }),
             [
-                {index: 1, duration: 0.5, note: 48, velocity: 65},
-                {index: 1.5, duration: 0.5, note: 48, velocity: 65},
-                {index: 2, duration: 0.5, note: 48, velocity: 65},
-                {index: 2.5, duration: 0.5, note: 48, velocity: 65},
+                {index: 1, duration: 0.5, midi: 48, velocity: 65},
+                {index: 1.5, duration: 0.5, midi: 48, velocity: 65},
+                {index: 2, duration: 0.5, midi: 48, velocity: 65},
+                {index: 2.5, duration: 0.5, midi: 48, velocity: 65},
             ],
         )
     })
@@ -29,18 +29,22 @@ describe('compose', () => {
         testEquals(
             Compose.composeArpeggio({
                 index: 1,
-                duration: 2,
+                duration: 4,
                 noteTiming: 'Eighth',
                 noteDuration: 'Eighth',
                 noteVelocity: 65,
                 chord: 'CMaj7',
-                startingNote: 'C3',
+                octave: 3,
             }),
             [
-                {index: 1, duration: 0.5, note: 48, velocity: 65},
-                {index: 1.5, duration: 0.5, note: 48, velocity: 65},
-                {index: 2, duration: 0.5, note: 48, velocity: 65},
-                {index: 2.5, duration: 0.5, note: 48, velocity: 65},
+                {index: 1, duration: 0.5, midi: 48, velocity: 65},
+                {index: 1.5, duration: 0.5, midi: 52, velocity: 65},
+                {index: 2, duration: 0.5, midi: 55, velocity: 65},
+                {index: 2.5, duration: 0.5, midi: 59, velocity: 65},
+                {index: 3, duration: 0.5, midi: 48, velocity: 65},
+                {index: 3.5, duration: 0.5, midi: 52, velocity: 65},
+                {index: 4, duration: 0.5, midi: 55, velocity: 65},
+                {index: 4.5, duration: 0.5, midi: 59, velocity: 65},
             ],
         )
     })
