@@ -47,5 +47,16 @@ describe('compose', () => {
                 {index: 4.5, duration: 0.5, midi: 59, velocity: 65},
             ],
         )
+        expect(() => {
+            Compose.composeArpeggio({
+                index: 1,
+                duration: 4,
+                noteTiming: 'Eighth',
+                noteDuration: 'Eighth',
+                noteVelocity: 65,
+                chord: 'Marshmallow',
+                octave: 3,
+            })
+        }).to.throw('Chord not found.')
     })
 })

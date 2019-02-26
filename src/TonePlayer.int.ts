@@ -1,35 +1,39 @@
-import {EComposeTypes} from "./compose";
-import TonePlayer, {IMidiNote} from './TonePlayer'
+import TonePlayer from './TonePlayer'
 
 describe('TonePlayer', () => {
     it('play notes!', function (done) {
-        this.timeout(6000)
+        this.timeout(60000)
         const player = new TonePlayer()
         for (let i = 0; i < 2; i++) {
             const track = player.createTrack()
             const section = track.createSection({
                 index: 1,
-                duration: 2,
+                duration: 8,
             })
-            for (let j = 1; j < 3; j += .125) {
-                section.composeNotes({
-                    index: j,
-                    duration: .125,
-                    type: EComposeTypes.Repeating,
-                    startingNote: Math.floor(Math.random() * 24 + 48),
-                    noteTiming: 'thirty-second',
-                    noteDuration: 'thirty-second',
-                    noteVelocity: 65,
-                })
-            }
+            section.composeArpeggio({
+                index: 1,
+                duration: 2,
+                noteTiming: 'eighth',
+                noteDuration: 'eighth',
+                noteVelocity: 65,
+                chord: 'G7',
+                octave: 3,
+                count: 4,
+            }).composeArpeggio({
+                chord: 'F',
+            }).composeArpeggio({
+                chord: 'Am',
+            }).composeArpeggio({
+                chord: 'Cmaj7',
+            })
         }
-        player.loop(1, 2)
+        player.loop(1, 8)
         setTimeout(() => {
             player.start()
         }, 500)
         setTimeout(() => {
             done()
             process.exit(0)
-        }, 5000)
+        }, 50000)
     })
 })

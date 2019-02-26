@@ -17,22 +17,31 @@ export default class TonePlayer extends Player {
         context.pipe(speaker)
         let last = Date.now()
         this.on('note', (note) => {
-            console.log(Date.now() - last, JSON.stringify(note))
+            console.log(Date.now() - last, note.midi)
             last = Date.now()
             const amp: any = context.createGain()
-            amp.gain.setValueAtTime(0.35, this.bufferTime + context.currentTime)
-            amp.gain.linearRampToValueAtTime(.15, this.bufferTime + context.currentTime + .05)
-            amp.gain.linearRampToValueAtTime(0, this.bufferTime + context.currentTime + .15)
+            amp.gain.setValueAtTime(0, this.bufferTime + context.currentTime)
+            amp.gain.linearRampToValueAtTime(.1, this.bufferTime + context.currentTime + .05)
+            amp.gain.linearRampToValueAtTime(0, this.bufferTime + context.currentTime + .6)
             amp.connect(context.destination)
 
             const osc: any = context.createOscillator()
-            osc.type = "square"
-            osc.frequency.value = frequencies[note.note]
+            osc.type = "sine"
+            osc.frequency.value = frequencies[note.midi] * 1.005
             osc.connect(amp)
             osc.start(context.currentTime + this.bufferTime)
-            osc.stop(context.currentTime + this.bufferTime + .15)
+            osc.stop(context.currentTime + this.bufferTime + .6)
             osc.onended = () => {
                 osc.disconnect()
+            }
+            const osc2: any = context.createOscillator()
+            osc2.type = "sine"
+            osc2.frequency.value = frequencies[note.midi] / 1.005
+            osc2.connect(amp)
+            osc2.start(context.currentTime + this.bufferTime)
+            osc2.stop(context.currentTime + this.bufferTime + .6)
+            osc2.onended = () => {
+                osc2.disconnect()
                 amp.disconnect()
             }
         })

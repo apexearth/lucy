@@ -67,6 +67,10 @@ export default class Note extends EventEmitter implements INote, ITimeComponent 
 
     constructor(params: INote) {
         super()
+        assert(params.note !== null, 'note required')
+        assert(params.velocity !== null, 'velocity required')
+        assert(params.index !== null, 'index required')
+        assert(params.duration !== null, 'duration required')
         this.note = params.note
         this.velocity = params.velocity
         this.index = params.index

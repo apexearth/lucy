@@ -1,7 +1,7 @@
 import assert from 'assert'
 import {EventEmitter} from "events";
 import * as Compose from './compose'
-import {IComposeRepeating} from "./compose";
+import {IComposeArpeggio, IComposeRepeating} from "./compose";
 import Note from './Note'
 import Tracker, {ITimeComponent} from "./Tracker";
 
@@ -51,6 +51,16 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
     public composeRepeating(params: IComposeRepeating | any) {
         params = this.absorbPreviousParameters(params)
         const notes = Compose.composeRepeating(params)
+        for (const note of notes) {
+            this.addNote(note)
+        }
+        this._previousParameters = params
+        return this
+    }
+
+    public composeArpeggio(params: IComposeArpeggio | any) {
+        params = this.absorbPreviousParameters(params)
+        const notes = Compose.composeArpeggio(params)
         for (const note of notes) {
             this.addNote(note)
         }
