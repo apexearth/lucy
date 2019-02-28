@@ -35,6 +35,7 @@ describe('compose', () => {
                 noteVelocity: 65,
                 chord: 'CMaj7',
                 octave: 3,
+                count: 4,
             }),
             [
                 {index: 1, duration: 0.5, midi: 48, velocity: 65},
@@ -56,6 +57,7 @@ describe('compose', () => {
                 noteVelocity: 65,
                 chord: 'Marshmallow',
                 octave: 3,
+                count: 4,
             })
         }).to.throw('Chord not found.')
     })

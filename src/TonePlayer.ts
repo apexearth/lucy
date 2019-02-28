@@ -21,8 +21,9 @@ export default class TonePlayer extends Player {
             last = Date.now()
             const amp: any = context.createGain()
             amp.gain.setValueAtTime(0, this.bufferTime + context.currentTime)
-            amp.gain.linearRampToValueAtTime(.1, this.bufferTime + context.currentTime + .05)
-            amp.gain.linearRampToValueAtTime(0, this.bufferTime + context.currentTime + .6)
+            amp.gain.linearRampToValueAtTime(.2, this.bufferTime + context.currentTime + .01)
+            amp.gain.linearRampToValueAtTime(.1, this.bufferTime + context.currentTime + .03)
+            amp.gain.linearRampToValueAtTime(0, this.bufferTime + context.currentTime + .3)
             amp.connect(context.destination)
 
             const osc: any = context.createOscillator()

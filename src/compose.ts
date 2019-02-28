@@ -46,6 +46,7 @@ export interface IComposeArpeggio extends ICompose {
     duration: number
     chord: string
     octave: number,
+    count: number,
     noteTiming: string | number
     noteDuration: string | number
     noteVelocity: number
@@ -56,11 +57,17 @@ export function composeArpeggio(params: IComposeArpeggio): Note[] {
     assert(params.duration !== undefined, 'A valid duration is required.')
     assert(params.chord !== undefined, 'A valid string is required.')
     assert(params.octave !== undefined, 'A valid octave is required.')
+    assert(params.count !== undefined, 'A valid count is required.')
     assert(params.noteTiming !== undefined, 'A valid noteTiming is required.')
     assert(params.noteDuration !== undefined, 'A valid noteDuration is required.')
     assert(params.noteVelocity !== undefined, 'A valid noteVelocity is required.')
-    const chordNotes = Chord.notes(params.chord)
+    let chordNotes = Chord.notes(params.chord)
     assert(chordNotes.length > 0, 'Chord not found.')
+    while (chordNotes.length < params.count) {
+        chordNotes = chordNotes.concat(chordNotes)
+    }
+    chordNotes = chordNotes.slice(0, params.count)
+    console.log(chordNotes.length)
     let chordCurrent = 0
     const noteTiming = Note.time(params.noteTiming)
     const noteDuration = Note.time(params.noteDuration)
@@ -68,10 +75,13 @@ export function composeArpeggio(params: IComposeArpeggio): Note[] {
     let scaleUp = 0
     let index: number = params.index
     while (index < params.index + params.duration) {
-        if (chordNotes[chordCurrent - 1] > chordNotes[chordCurrent]) {
+        const lastNote = chordNotes[chordCurrent - 1]
+        const currentNote = chordNotes[chordCurrent]
+        if (currentNote >= 'C' && (lastNote < 'C' || lastNote > currentNote)) {
             scaleUp += 1
         }
-        const note = Note.from({oct: params.octave + scaleUp}, chordNotes[chordCurrent])
+        const note = Note.from({oct: params.octave + scaleUp}, currentNote)
+        console.log(note, index)
         notes.push(Note.create({
             note,
             velocity: params.noteVelocity,
@@ -79,7 +89,8 @@ export function composeArpeggio(params: IComposeArpeggio): Note[] {
             duration: noteDuration,
         }))
         index += noteTiming
-        if (++chordCurrent === chordNotes.length) {
+        chordCurrent += 1
+        if (chordCurrent === chordNotes.length) {
             chordCurrent = 0
             scaleUp = 0
         }

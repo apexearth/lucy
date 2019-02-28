@@ -18,7 +18,7 @@ describe('Note', () => {
         expect(Note.time('sixty-fourth')).to.equal(.0625)
         expect(Note.time(.0625)).to.equal(.0625)
     })
-    it('translateLetterNote', () => {
+    it('Note.midi', () => {
         expect(Note.midi(59)).to.equal(59)
 
         expect(Note.midi('A2')).to.equal(45)
@@ -36,15 +36,16 @@ describe('Note', () => {
         expect(Note.midi('A3')).to.equal(57)
     })
     it('Note.create', () => {
-        const note = Note.create({
+        expect(Note.create({
             note: 'C4',
             duration: 1,
             velocity: 127,
             index: 1,
-        }).toMidi()
-        expect(note.midi).to.equal(60)
-        expect(note.duration).to.equal(1)
-        expect(note.velocity).to.equal(127)
-        expect(note.index).to.equal(1)
+        }).toMidi()).to.deep.equal({
+            midi: 60,
+            duration: 1,
+            velocity: 127,
+            index: 1,
+        })
     })
 })

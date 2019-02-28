@@ -2,7 +2,7 @@
   "name": "@apexearth/lucy",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov --require ts-node/register --require source-map-support/register | coveralls",
     "test": "npm run lint && npm run mocha",
