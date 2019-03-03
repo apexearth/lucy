@@ -3,21 +3,21 @@ import {EventEmitter} from "events";
 import * as Compose from './compose'
 import {IComposeArpeggio, IComposeRepeating} from "./compose";
 import Note from './Note'
-import Tracker, {ITimeComponent} from "./Tracker";
+import Tracker, {ITimeDuration} from "./Tracker";
 
-export interface ISection extends ITimeComponent {
+export interface ISection extends ITimeDuration {
     notes?: Note[]
     index: number
     duration: number
 }
 
-export default class Section extends EventEmitter implements ISection, ITimeComponent {
+export default class Section extends EventEmitter implements ISection, ITimeDuration {
     public notes: Note[] = []
     public index: number = 1
     public duration: number = 4
     public active: boolean = false
 
-    private _previousParameters?: Compose.ICompose
+    private _previousParameters: ITimeDuration = {index: 1, duration: 0}
 
     constructor(section?: ISection) {
         super();
@@ -33,13 +33,13 @@ export default class Section extends EventEmitter implements ISection, ITimeComp
         this.validate()
     }
 
-    public absorbPreviousParameters(params: Compose.ICompose) {
-        let modifiedParams: Compose.ICompose
+    public absorbPreviousParameters(params: ITimeDuration) {
+        let modifiedParams: ITimeDuration
         if (this._previousParameters) {
-            modifiedParams = Object.assign({}, this._previousParameters, params) as Compose.ICompose
+            modifiedParams = Object.assign({}, this._previousParameters, params) as ITimeDuration
             if (params.index === undefined) {
                 modifiedParams.index = (
-                    this._previousParameters.index + this._previousParameters.duration
+                    this._previousParameters.index + (this._previousParameters.duration || 0)
                 )
             }
         } else {

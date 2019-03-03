@@ -1,7 +1,7 @@
 ///<reference path="compose.d.ts"/>
 import assert from 'assert'
 import {EventEmitter} from "events"
-import Tracker, {ITimeComponent} from "./Tracker"
+import Tracker, {ITimeDuration} from "./Tracker"
 
 import * as Tonal from 'tonal'
 
@@ -19,7 +19,7 @@ export interface INote {
     duration: number
 }
 
-export default class Note extends EventEmitter implements INote, ITimeComponent {
+export default class Note extends EventEmitter implements INote, ITimeDuration {
 
     public static from(opts: any, note: string) {
         return Tonal.Note.from(opts, note)

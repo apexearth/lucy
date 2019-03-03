@@ -2,13 +2,9 @@
 import assert from 'assert'
 import {Chord} from 'tonal'
 import Note from './Note'
+import {ITimeDuration} from './Tracker'
 
-export interface ICompose {
-    index: number
-    duration: number
-}
-
-export interface IComposeRepeating extends ICompose {
+export interface IComposeRepeating extends ITimeDuration {
     index: number
     duration: number
     startingNote: string
@@ -41,7 +37,7 @@ export function composeRepeating(params: IComposeRepeating): Note[] {
     return notes
 }
 
-export interface IComposeArpeggio extends ICompose {
+export interface IComposeArpeggio extends ITimeDuration {
     index: number
     duration: number
     chord: string

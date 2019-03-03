@@ -1,6 +1,6 @@
 import {EventEmitter} from 'events'
 
-export interface ITimeComponent {
+export interface ITimeDuration {
     index: number
     duration: number
 }
@@ -95,7 +95,7 @@ export default class Tracker extends EventEmitter {
         this._loop = undefined
     }
 
-    public isNow(component: ITimeComponent, timeOffset: number = 0) {
+    public isNow(component: ITimeDuration, timeOffset: number = 0) {
         return (
             this.delta >= ((component.index - 1 + timeOffset) * this.mspb)
             &&
