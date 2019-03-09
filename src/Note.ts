@@ -29,6 +29,15 @@ export default class Note extends EventEmitter implements INote, ITimeDuration {
         return Tonal.midi(note)
     }
 
+    public static letterValue(letter: string): number | null {
+        if (!letter) { return null }
+        let code = letter[0].charCodeAt(0)
+        if (code < 67) {
+            code += 7
+        }
+        return code - 66
+    }
+
     public static time(timing: string | number): number {
         if (typeof timing === 'number') {
             return timing

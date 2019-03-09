@@ -48,4 +48,13 @@ describe('Note', () => {
             index: 1,
         })
     })
+    it('Note.letterValue', () => {
+        expect(Note.letterValue('A')).to.equal(6)
+        expect(Note.letterValue('B')).to.equal(7)
+        expect(Note.letterValue('C')).to.equal(1)
+        expect(Note.letterValue('D')).to.equal(2)
+        expect(Note.letterValue('E')).to.equal(3)
+        expect(Note.letterValue('F')).to.equal(4)
+        expect(Note.letterValue('G')).to.equal(5)
+    })
 })

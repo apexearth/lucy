@@ -16,12 +16,21 @@ for (let i = 0; i < 2; i++) {
         chord: 'G7',
         octave: 3,
         count: 6,
+        direction: 'up',
     }).composeArpeggio({
         chord: 'F',
+        octave: 4,
+        count: 4,
+        direction: 'downup',
     }).composeArpeggio({
         chord: 'Am',
+        octave: 3,
+        count: 3,
+        direction: 'down',
     }).composeArpeggio({
         chord: 'Cmaj7',
+        octave: 3,
+        count: 3,
     })
 }
 player.loop(1, 16)
