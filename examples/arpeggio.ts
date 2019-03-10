@@ -5,7 +5,6 @@ for (let i = 0; i < 2; i++) {
     const track = player.createTrack()
     const section = track.createSection({
         index: 1,
-        duration: 16,
     })
     section.composeArpeggio({
         index: 1,
@@ -24,7 +23,6 @@ for (let i = 0; i < 2; i++) {
         direction: 'downup',
     }).composeArpeggio({
         chord: 'Am',
-        octave: 3,
         count: 3,
         direction: 'down',
     }).composeArpeggio({

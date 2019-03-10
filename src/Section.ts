@@ -3,12 +3,12 @@ import {EventEmitter} from "events";
 import * as Compose from './compose'
 import {IComposeArpeggio, IComposeRepeating} from "./compose";
 import Note from './Note'
-import Tracker, {ITimeDuration} from "./Tracker";
+import Tracker, {ITime, ITimeDuration} from "./Tracker";
 
-export interface ISection extends ITimeDuration {
+export interface ISection extends ITime {
     notes?: Note[]
     index: number
-    duration: number
+    duration?: number
 }
 
 export default class Section extends EventEmitter implements ISection, ITimeDuration {
@@ -28,7 +28,7 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
                 }
             }
             this.index = section.index
-            this.duration = section.duration
+            this.duration = section.duration || 0
         }
         this.validate()
     }
@@ -63,6 +63,9 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
         const notes = Compose.composeArpeggio(params)
         for (const note of notes) {
             this.addNote(note)
+            if (note.index > this.duration) {
+                this.duration = Math.ceil(note.index)
+            }
         }
         this._previousParameters = params
         return this

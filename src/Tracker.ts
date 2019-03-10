@@ -1,6 +1,10 @@
 import {EventEmitter} from 'events'
 
-export interface ITimeDuration {
+export interface ITime {
+    index: number
+}
+
+export interface ITimeDuration extends ITime {
     index: number
     duration: number
 }
