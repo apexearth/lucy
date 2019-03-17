@@ -1,5 +1,5 @@
 import {expect} from 'chai'
-import * as Compose from './compose'
+import * as Compose from '.'
 import Note, {IMidiNote} from "../Note"
 
 const testEquals = (actual: Note[], expected: IMidiNote[]) => {

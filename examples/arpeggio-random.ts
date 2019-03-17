@@ -18,7 +18,6 @@ section.composeSetParameters({
 })
 
 section.composeArpeggio()
-
 section.composeArpeggio()
 section.composeArpeggio()
 section.composeArpeggio()
