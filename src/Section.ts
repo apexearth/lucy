@@ -48,7 +48,13 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
         return modifiedParams
     }
 
-    public composeRepeating(params: IComposeRepeating | any) {
+    public composeSetParameters(params: any) {
+        this._previousParameters = params
+        this._previousParameters.index -= (this._previousParameters.duration || 0)
+        return this
+    }
+
+    public composeRepeating(params: IComposeRepeating | any = {}) {
         params = this.absorbPreviousParameters(params)
         const notes = Compose.composeRepeating(params)
         for (const note of notes) {
@@ -58,8 +64,9 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
         return this
     }
 
-    public composeArpeggio(params: IComposeArpeggio | any) {
+    public composeArpeggio(params: IComposeArpeggio | any = {}) {
         params = this.absorbPreviousParameters(params)
+        console.log('Composing Arpeggio:', JSON.stringify(params))
         const notes = Compose.composeArpeggio(params)
         for (const note of notes) {
             this.addNote(note)

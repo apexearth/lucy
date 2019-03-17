@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import * as Compose from './compose'
-import Note, {IMidiNote} from "./Note"
+import Note, {IMidiNote} from "../Note"
 
 const testEquals = (actual: Note[], expected: IMidiNote[]) => {
     const result = actual.map((note) => note.toMidi())
@@ -181,9 +181,6 @@ describe('compose', () => {
         )
     })
     it('composeArpeggio updown', () => {
-        const index = 1
-        const duration = 1
-        const velocity = 65
         testEquals(
             Compose.composeArpeggio({
                 index: 1,
@@ -296,9 +293,6 @@ describe('compose', () => {
         )
     })
     it('composeArpeggio downup', () => {
-        const index = 1
-        const duration = 1
-        const velocity = 65
         testEquals(
             Compose.composeArpeggio({
                 index: 1,
@@ -410,5 +404,19 @@ describe('compose', () => {
                 },
             ],
         )
+    })
+    it('composeArpeggio key', () => {
+        const notes = Compose.composeArpeggio({
+            index: 1,
+            duration: 4,
+            noteTiming: 'Eighth',
+            noteDuration: 'Eighth',
+            noteVelocity: 65,
+            key: 'C major',
+            octave: 3,
+            count: 4,
+            direction: 'up',
+        })
+        expect(notes.length).to.equal(8)
     })
 })

@@ -1,4 +1,3 @@
-///<reference path="compose.d.ts"/>
 import assert from 'assert'
 import {EventEmitter} from "events"
 import Tracker, {ITimeDuration} from "./Tracker"
@@ -21,8 +20,8 @@ export interface INote {
 
 export default class Note extends EventEmitter implements INote, ITimeDuration {
 
-    public static from(opts: any, note: string) {
-        return Tonal.Note.from(opts, note)
+    public static from(opts: any, note: string): string {
+        return Tonal.Note.from(opts, note) as string
     }
 
     public static midi(note: string | number): number | null {
@@ -30,7 +29,9 @@ export default class Note extends EventEmitter implements INote, ITimeDuration {
     }
 
     public static letterValue(letter: string): number | null {
-        if (!letter) { return null }
+        if (!letter) {
+            return null
+        }
         let code = letter[0].charCodeAt(0)
         if (code < 67) {
             code += 7

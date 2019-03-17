@@ -1,58 +1,28 @@
-///<reference path="compose.d.ts"/>
-import assert from 'assert'
-import {Chord} from 'tonal'
-import Note from './Note'
-import {ITimeDuration} from './Tracker'
-
-export interface IComposeRepeating extends ITimeDuration {
-    index: number
-    duration: number
-    startingNote: string
-    noteTiming: string | number
-    noteDuration: string | number
-    noteVelocity: number
-}
-
-export function composeRepeating(params: IComposeRepeating): Note[] {
-    assert(params.index !== undefined, 'A valid index is required.')
-    assert(params.duration !== undefined, 'A valid duration is required.')
-    assert(params.startingNote !== undefined, 'A valid startingNote is required.')
-    assert(params.noteTiming !== undefined, 'A valid noteTiming is required.')
-    assert(params.noteDuration !== undefined, 'A valid noteDuration is required.')
-    assert(params.noteVelocity !== undefined, 'A valid noteVelocity is required.')
-    const note: string = params.startingNote
-    const noteTiming = Note.time(params.noteTiming)
-    const noteDuration = Note.time(params.noteDuration)
-    const notes = []
-    let index: number = params.index
-    while (index < params.index + params.duration) {
-        notes.push(Note.create({
-            note,
-            velocity: params.noteVelocity,
-            index,
-            duration: noteDuration,
-        }))
-        index += noteTiming
-    }
-    return notes
-}
+///<reference path="composeArpeggio.d.ts"/>
+import assert from 'assert';
+import randomItem from 'random-item';
+import {Chord} from "tonal";
+import * as Key from "tonal-key";
+import Note from "../Note";
+import {ITimeDuration} from "../Tracker";
 
 export interface IComposeArpeggio extends ITimeDuration {
     index: number
     duration: number
-    chord: string
-    octave: number,
-    count: number,
-    direction: string,
+    key?: string
+    chord?: string
+    octave: number
+    count: number
+    direction: string
     noteTiming: string | number
     noteDuration: string | number
     noteVelocity: number
 }
 
-export function composeArpeggio(params: IComposeArpeggio): Note[] {
+export default function composeArpeggio(params: IComposeArpeggio): Note[] {
     assert(params.index !== undefined, 'A valid index is required.')
     assert(params.duration !== undefined, 'A valid duration is required.')
-    assert(params.chord !== undefined, 'A valid string is required.')
+    assert(params.chord !== undefined || params.key !== undefined, 'A valid chord or key is required.')
     assert(params.octave !== undefined, 'A valid octave is required.')
     assert(params.count !== undefined, 'A valid count is required.')
     assert(params.direction !== undefined, 'A valid direction is required.')
@@ -60,8 +30,9 @@ export function composeArpeggio(params: IComposeArpeggio): Note[] {
     assert(params.noteDuration !== undefined, 'A valid noteDuration is required.')
     assert(params.noteVelocity !== undefined, 'A valid noteVelocity is required.')
 
+    const chord = params.chord || randomItem(Key.chords(params.key))
     let direction = params.direction.startsWith('up') ? 'up' : 'down'
-    let chordNotes = Chord.notes(params.chord)
+    let chordNotes = Chord.notes(chord)
     assert(chordNotes.length > 0, 'Chord not found.')
     while (chordNotes.length < params.count) {
         chordNotes = chordNotes.concat(chordNotes)

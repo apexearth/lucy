@@ -1,0 +1,29 @@
+<component name="libraryTable">
+  <library name="ts-external-references" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-array/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-dictionary/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-distance/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-interval/build/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-note/build/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-pcset/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/node_modules/tonal-scale/index.d.ts" />
+        <item url="file://$PROJECT_DIR$/src/TonePlayer.d.ts" />
+        <item url="file://$PROJECT_DIR$/src/index.d.ts" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/src/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-array/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-dictionary/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-distance/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-interval/build/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-note/build/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-pcset/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/node_modules/tonal-scale/index.d.ts" />
+      <root url="file://$PROJECT_DIR$/src/TonePlayer.d.ts" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
