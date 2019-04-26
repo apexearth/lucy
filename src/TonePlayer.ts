@@ -24,8 +24,8 @@ export default class TonePlayer extends Player {
             const duration = note.duration * (1 / this.tracker.bps)
             const amp: GainNode = context.createGain()
             amp.gain.setValueAtTime(0, offset)
-            amp.gain.linearRampToValueAtTime(.4 * (note.velocity / 127), offset + .01)
-            amp.gain.linearRampToValueAtTime(.15 * (note.velocity / 127), offset + duration)
+            amp.gain.linearRampToValueAtTime(.3 * (note.velocity / 127), offset + .01)
+            amp.gain.linearRampToValueAtTime(.10 * (note.velocity / 127), offset + duration)
             amp.gain.linearRampToValueAtTime(0, offset + duration + .1)
             amp.connect(context.destination)
 

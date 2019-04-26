@@ -17,6 +17,7 @@ export interface IComposeArpeggio extends ITimeDuration {
     noteTiming: string | number
     noteDuration: string | number
     noteVelocity: number
+    rotate?: number
 }
 
 export default function composeArpeggio(params: IComposeArpeggio): Note[] {
@@ -40,6 +41,7 @@ export default function composeArpeggio(params: IComposeArpeggio): Note[] {
     if (direction === 'down') {
         chordNotes = chordNotes.reverse()
     }
+    let rotationNeeded = params.rotate || 0
     console.log(chordNotes.length)
     let chordCurrent = 0
     let chordDirection = 1
@@ -65,16 +67,20 @@ export default function composeArpeggio(params: IComposeArpeggio): Note[] {
             }
         }
 
-        const note = Note.from({oct: params.octave + octaveModifier}, currentNote)
-        console.log(note, index)
-        notes.push(Note.create({
-            note,
-            velocity: params.noteVelocity,
-            index,
-            duration: noteDuration,
-        }))
+        if (rotationNeeded === 0) {
+            const note = Note.from({oct: params.octave + octaveModifier}, currentNote)
+            console.log(note, index)
+            notes.push(Note.create({
+                note,
+                velocity: params.noteVelocity,
+                index,
+                duration: noteDuration,
+            }))
 
-        index += noteTiming
+            index += noteTiming
+        } else {
+            rotationNeeded -= 1
+        }
         chordCurrent += chordDirection
         lastNote = currentNote
         lastNoteValue = currentNoteValue

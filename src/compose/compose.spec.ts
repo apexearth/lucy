@@ -419,4 +419,30 @@ describe('compose', () => {
         })
         expect(notes.length).to.equal(8)
     })
+    it('composeArpeggio rotate', () => {
+        testEquals(
+            Compose.composeArpeggio({
+                index: 1,
+                duration: 8,
+                noteTiming: 'Quarter',
+                noteDuration: 'Quarter',
+                noteVelocity: 65,
+                chord: 'CMaj7',
+                octave: 3,
+                count: 4,
+                direction: 'up',
+                rotate: 2,
+            }),
+            [
+                {index: 1, duration: 1, midi: 55, velocity: 65},
+                {index: 2, duration: 1, midi: 59, velocity: 65},
+                {index: 3, duration: 1, midi: 48, velocity: 65},
+                {index: 4, duration: 1, midi: 52, velocity: 65},
+                {index: 5, duration: 1, midi: 55, velocity: 65},
+                {index: 6, duration: 1, midi: 59, velocity: 65},
+                {index: 7, duration: 1, midi: 48, velocity: 65},
+                {index: 8, duration: 1, midi: 52, velocity: 65},
+            ],
+        )
+    })
 })
