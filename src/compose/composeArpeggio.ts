@@ -13,7 +13,7 @@ export interface IComposeArpeggio extends ITimeDuration {
     chord?: string
     octave: number
     count: number
-    direction: string
+    direction?: string
     noteTiming: string | number
     noteDuration: string | number
     noteVelocity: number
@@ -25,13 +25,12 @@ export default function composeArpeggio(params: IComposeArpeggio): Note[] {
     assert(params.chord !== undefined || params.key !== undefined, 'A valid chord or key is required.')
     assert(params.octave !== undefined, 'A valid octave is required.')
     assert(params.count !== undefined, 'A valid count is required.')
-    assert(params.direction !== undefined, 'A valid direction is required.')
     assert(params.noteTiming !== undefined, 'A valid noteTiming is required.')
     assert(params.noteDuration !== undefined, 'A valid noteDuration is required.')
     assert(params.noteVelocity !== undefined, 'A valid noteVelocity is required.')
 
     const chord = params.chord || randomItem(Key.chords(params.key))
-    let direction = params.direction.startsWith('up') ? 'up' : 'down'
+    let direction = !params.direction || params.direction.startsWith('up') ? 'up' : 'down'
     let chordNotes = Chord.notes(chord)
     assert(chordNotes.length > 0, 'Chord not found.')
     while (chordNotes.length < params.count) {

@@ -3,14 +3,15 @@ import Player from './Player'
 
 import Speaker from 'speaker'
 import {StreamAudioContext} from 'web-audio-engine'
+import Song from "./Song";
 
 export * from './Player'
 export default class TonePlayer extends Player {
     private bufferTime: number = 1
     private context: any
 
-    constructor() {
-        super()
+    constructor(song: Song) {
+        super(song)
         const context = this.context = new StreamAudioContext()
         const speaker = new Speaker()
         context.resume()

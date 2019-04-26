@@ -1,11 +1,13 @@
+import Song from "./Song";
 import TonePlayer from './TonePlayer'
 
 describe('TonePlayer', () => {
     it('play notes!', function (done) {
         this.timeout(60000)
-        const player = new TonePlayer()
+        const song = new Song();
+        const player = new TonePlayer(song)
         for (let i = 0; i < 2; i++) {
-            const track = player.createTrack()
+            const track = song.createTrack()
             const section = track.createSection({
                 index: 1,
                 duration: 8,

@@ -44,7 +44,7 @@ export default class Tracker extends EventEmitter {
     private _running: boolean = false
 
     constructor({
-        bpm = 120,
+        bpm = 132,
     } = {}) {
         super()
         this.bpm = bpm

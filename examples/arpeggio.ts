@@ -1,8 +1,10 @@
 import {TonePlayer} from '../'
+import Song from "../src/Song";
 
-const player = new TonePlayer()
+const song = new Song()
+const player = new TonePlayer(song)
 for (let i = 0; i < 2; i++) {
-    const track = player.createTrack()
+    const track = song.createTrack()
     const section = track.createSection({
         index: 1,
     })

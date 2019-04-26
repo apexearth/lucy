@@ -1,6 +1,6 @@
 import {EventEmitter} from 'events'
 
-// import midi from './midi'
+import Song from "./Song";
 import Track from './Track'
 import Tracker from './Tracker'
 
@@ -11,12 +11,17 @@ export * from './Note'
  */
 export default class Player extends EventEmitter {
     public tracker: Tracker = new Tracker()
-    public tracks: Track[] = []
 
     // public output?: object = midi.output('Lucy Output')
 
-    constructor() {
+    constructor(
+        public song: Song,
+    ) {
         super()
+        this.song.on('note', (note) => this.emit('note', note))
+        this.song.on('noteon', (note) => this.emit('noteon', note))
+        this.song.on('noteoff', (note) => this.emit('noteoff', note))
+
         this.tracker.on('tick', () => this.update())
     }
 
@@ -36,22 +41,7 @@ export default class Player extends EventEmitter {
     }
 
     public update() {
-        for (const track of this.tracks) {
-            track.update(this.tracker)
-        }
-    }
-
-    public addTrack(track: Track) {
-        track.on('note', (note) => this.emit('note', note))
-        track.on('noteon', (note) => this.emit('noteon', note))
-        track.on('noteoff', (note) => this.emit('noteoff', note))
-        this.tracks.push(track)
-        return track
-    }
-
-    public createTrack(): Track {
-        const track = new Track()
-        return this.addTrack(track)
+        this.song.update(this.tracker);
     }
 
     /**
@@ -67,7 +57,8 @@ export default class Player extends EventEmitter {
 }
 
 if (require.main === module) {
-    const player = new Player()
+    const song = new Song()
+    const player = new Player(song)
     player.start()
     let quarter = 0
     player.tracker.on('tick', () => {
