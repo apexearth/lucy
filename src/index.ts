@@ -1,1 +1,1 @@
-export {default as TonePlayer} from './TonePlayer'
+export {default as TonePlayer} from './core/TonePlayer'

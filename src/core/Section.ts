@@ -1,7 +1,7 @@
 import assert from 'assert'
 import {EventEmitter} from "events";
-import * as Compose from './compose'
-import {IComposeArpeggio, IComposeRepeating} from "./compose";
+import * as Compose from '../compose'
+import {IComposeArpeggio, IComposeRepeating} from "../compose";
 import Note from './Note'
 import Tracker, {ITime, ITimeDuration} from "./Tracker";
 

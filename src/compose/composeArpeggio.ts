@@ -3,8 +3,8 @@ import assert from 'assert';
 import randomItem from 'random-item';
 import {Chord} from "tonal";
 import * as Key from "tonal-key";
-import Note from "../Note";
-import {ITimeDuration} from "../Tracker";
+import Note from "../core/Note";
+import {ITimeDuration} from "../core/Tracker";
 
 export interface IComposeArpeggio extends ITimeDuration {
     index: number

@@ -1,5 +1,5 @@
 import {TonePlayer} from '../'
-import Song from "../src/Song";
+import Song from "../src/core/Song";
 
 const song = new Song()
 const player = new TonePlayer(song)

@@ -1,7 +1,7 @@
 ///<reference path="composeRepeating.d.ts"/>
 import assert from "assert";
-import Note from "../Note";
-import {ITimeDuration} from "../Tracker";
+import Note from "../core/Note";
+import {ITimeDuration} from "../core/Tracker";
 
 export interface IComposeRepeating extends ITimeDuration {
     index: number

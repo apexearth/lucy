@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 import * as Compose from '.'
-import Note, {IMidiNote} from "../Note"
+import Note, {IMidiNote} from "../core/Note"
 
 const testEquals = (actual: Note[], expected: IMidiNote[]) => {
     const result = actual.map((note) => note.toMidi())

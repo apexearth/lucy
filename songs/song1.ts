@@ -24,7 +24,7 @@ two.composeSetParameters({
     noteTiming: 'sixteenth',
     noteDuration: 'eighth',
     noteVelocity: 45,
-    direction: 'up',
+    direction: 'updown',
     count: 8,
     octave: 3,
 })
