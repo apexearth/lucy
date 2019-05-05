@@ -1,7 +1,9 @@
 import {TonePlayer} from '../'
+import Song from "../src/core/Song";
 
-const player = new TonePlayer()
-const track = player.createTrack()
+const song = new Song();
+const player = new TonePlayer(song)
+const track = song.createTrack()
 const one = track.createSection({
     index: 1,
 })
@@ -45,7 +47,7 @@ lower.composeSetParameters({
     index: 1,
     duration: 8,
     noteTiming: 'eighth',
-    noteDuration: 'eighth',
+    noteDuration: 'sixteenth',
     noteVelocity: 75,
     direction: 'up',
     count: 4,

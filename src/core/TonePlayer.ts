@@ -24,13 +24,13 @@ export default class TonePlayer extends Player {
             const duration = note.duration * (1 / this.tracker.bps)
             const amp: GainNode = context.createGain()
             amp.gain.setValueAtTime(0, offset)
-            amp.gain.linearRampToValueAtTime(.3 * (note.velocity / 127), offset + .01)
-            amp.gain.linearRampToValueAtTime(.10 * (note.velocity / 127), offset + duration)
-            amp.gain.linearRampToValueAtTime(0, offset + duration + .1)
+            amp.gain.linearRampToValueAtTime(.3 * (note.velocity / 127), offset + duration * .05)
+            amp.gain.linearRampToValueAtTime(.10 * (note.velocity / 127), offset + duration * .35)
+            amp.gain.linearRampToValueAtTime(0, offset + duration)
             amp.connect(context.destination)
 
             const osc: any = context.createOscillator()
-            osc.type = "sine"
+            osc.type = "square"
             osc.frequency.value = frequencies[note.midi] * 1.005
             osc.connect(amp)
             osc.start(context.currentTime + this.bufferTime)
