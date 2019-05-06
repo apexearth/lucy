@@ -3,10 +3,10 @@ import {Composer} from './Composer';
 describe('Composer', () => {
     it('some basics', () => {
         const composer = new Composer();
-        compose.key = 'C Major';
-        compose.speed(1);
-        compose.start('C3');
-        compose
+        composer.key = 'C Major';
+        composer.speed = 1;
+        composer.start('C3');
+        composer
             .up()
             .up()
             .up(2)
