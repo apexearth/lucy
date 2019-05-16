@@ -22,13 +22,16 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
     constructor(section?: ISection) {
         super();
         if (section) {
+            this.duration = section.duration || 0
             if (section.notes) {
                 for (const note of section.notes) {
                     this.addNote(note)
+                    if (this.duration < note.index) {
+                        this.duration = note.index;
+                    }
                 }
             }
             this.index = section.index
-            this.duration = section.duration || 0
         }
         this.validate()
     }

@@ -1,6 +1,7 @@
 import EventEmitter from 'events'
 import Section, {ISection} from './Section'
 import Tracker from './Tracker'
+import Note, {INote} from "./Note";
 
 export interface ITrack {
     sections?: Section[]
@@ -27,6 +28,10 @@ export default class Track extends EventEmitter {
     public createSection(params: ISection): Section {
         const section = new Section(params)
         return this.addSection(section)
+    }
+
+    public addNotes(index: number = 1, notes: Note[]) {
+        return this.createSection({index, notes})
     }
 
     public update(tracker: Tracker) {
