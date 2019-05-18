@@ -4,6 +4,8 @@ node_js:
 before_install:
   - sudo apt update
   - sudo apt install libasound2-dev -y
+install:
+  - npm install --build-from-source
 script:
   - npm run coveralls
 deploy:
