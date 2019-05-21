@@ -11,6 +11,8 @@ export * from './Note'
 export default class Song extends EventEmitter {
     public tracks: Track[] = []
 
+    public key: string = 'C Major';
+
     constructor() {
         super()
     }
@@ -34,7 +36,7 @@ export default class Song extends EventEmitter {
     }
 
     public createTrack(): Track {
-        const track = new Track()
+        const track = new Track({key: this.key})
         return this.addTrack(track)
     }
 }

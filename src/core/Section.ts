@@ -73,9 +73,6 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
         const notes = Compose.composeArpeggio(params)
         for (const note of notes) {
             this.addNote(note)
-            if (note.index > this.duration) {
-                this.duration = Math.ceil(note.index)
-            }
         }
         this._previousParameters = params
         return this
@@ -91,6 +88,9 @@ export default class Section extends EventEmitter implements ISection, ITimeDura
         note.on('noteon', (n) => this.emit('noteon', n))
         note.on('noteoff', (n) => this.emit('noteoff', n))
         this.notes.push(note)
+        if (note.index > this.duration) {
+            this.duration = Math.ceil(note.index + note.duration - 1)
+        }
     }
 
     public update(tracker: Tracker) {

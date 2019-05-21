@@ -1,12 +1,14 @@
 ///<reference path="Composer.d.ts"/>
 import * as Key from "tonal-key";
 import Note from "../core/Note";
+import Section from "../core/Section";
+import Track from "../core/Track";
 
 export class Composer {
     public key: string = 'C Major';
-    public note: string = 'C3';
+    public note: string;
     public speed: number = 1;
-    public notes: Note[] = [];
+    public section?: Section;
     public velocity: number = 100;
 
     public index: number = 1;
@@ -15,20 +17,26 @@ export class Composer {
     public keyIndex: number = 0;
     public keyOctave: number = 3;
 
-    constructor(options?: {
-        key?: string,
-        note?: string,
-        speed?: number,
-        velocity?: number,
-    }) {
+    constructor(
+        private track: Track,
+        options?: {
+            key?: string,
+            note?: string,
+            speed?: number,
+            velocity?: number,
+        },
+    ) {
         if (options) {
             this.key = options.key || this.key;
-            this.note = options.note || this.note;
+            this.keyNotes = Key.scale(this.key)
+            this.note = options.note || (this.keyNotes[0] + this.keyOctave);
             this.speed = options.speed || this.speed;
             this.velocity = options.velocity || this.velocity;
+        } else {
+            this.keyNotes = Key.scale(this.key)
+            this.note = this.keyNotes[0] + this.keyOctave;
         }
         this.startNote = this.note;
-        this.keyNotes = Key.scale(this.key)
         const startNote = /([A-G][#b]?)/.exec(this.note);
         if (!startNote) {
             throw new Error('Invalid start note received.');
@@ -54,27 +62,23 @@ export class Composer {
     }
 
     public clear() {
+        this.section = undefined;
         this.note = this.startNote;
-        this.notes = []
     }
 
     public start() {
-        this.notes = [
-            Note.create({
-                note: this.note,
-                index: this.index,
-                duration: this.speed,
-                velocity: this.velocity,
-            }),
-        ];
+        this.next(0)
         this.index += this.speed;
         return this;
     }
 
     public next(direction: number | null) {
+        if (!this.section) {
+            this.section = this.track.createSection({index: this.index});
+        }
         if (direction !== null) {
             this.moveNote(direction);
-            this.notes.push(Note.create({
+            this.section.addNote(Note.create({
                 note: this.note,
                 index: this.index,
                 duration: this.speed,
