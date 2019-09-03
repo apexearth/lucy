@@ -4,10 +4,15 @@ import Note from "../core/Note";
 import Section from "../core/Section";
 import Track from "../core/Track";
 
+export interface IComposeInstruction {
+    transpose?: number;
+    duration?: number;
+}
+
 export class Composer {
     public key: string = 'C Major';
     public note: string;
-    public speed: number = 1;
+    public duration: number = 1;
     public section?: Section;
     public velocity: number = 100;
 
@@ -22,7 +27,7 @@ export class Composer {
         options?: {
             key?: string,
             note?: string,
-            speed?: number,
+            duration?: number,
             velocity?: number,
         },
     ) {
@@ -30,7 +35,7 @@ export class Composer {
             this.key = options.key || this.key;
             this.keyNotes = Key.scale(this.key)
             this.note = options.note || (this.keyNotes[0] + this.keyOctave);
-            this.speed = options.speed || this.speed;
+            this.duration = options.duration || this.duration;
             this.velocity = options.velocity || this.velocity;
         } else {
             this.keyNotes = Key.scale(this.key)
@@ -45,17 +50,17 @@ export class Composer {
         if (!startOctave) {
             throw new Error('Invalid start octave received.');
         }
-        this.keyIndex = this.keyNotes.indexOf(startNote[0])
+        this.keyIndex = this.keyNotes.indexOf(startNote[0]);
         this.keyOctave = Number(startOctave[0])
     }
 
     public moveNote(amount: number) {
         this.keyIndex += amount;
         if (this.keyIndex > 6) {
-            this.keyIndex -= 7
+            this.keyIndex -= 7;
             this.keyOctave++
         } else if (this.keyIndex < 0) {
-            this.keyIndex += 7
+            this.keyIndex += 7;
             this.keyOctave--
         }
         this.note = this.keyNotes[this.keyIndex] + this.keyOctave
@@ -67,39 +72,39 @@ export class Composer {
     }
 
     public start() {
-        this.next(0)
-        this.index += this.speed;
+        this.next({transpose: 0});
+        this.index += this.duration;
         return this;
     }
 
-    public next(direction: number | null) {
+    public next(instruction: IComposeInstruction) {
         if (!this.section) {
             this.section = this.track.createSection({index: this.index});
         }
-        if (direction !== null) {
-            this.moveNote(direction);
+        if (instruction.transpose !== undefined) {
+            this.moveNote(instruction.transpose);
             this.section.addNote(Note.create({
                 note: this.note,
                 index: this.index,
-                duration: this.speed,
+                duration: instruction.duration || this.duration,
                 velocity: this.velocity,
             }));
         }
-        this.index += this.speed;
+        this.index += instruction.duration || this.duration;
         return this;
     }
 
     public up(distance: number = 1): this {
-        return this.next(distance)
+        return this.next({transpose: distance})
     }
 
     public down(distance: number = 1): this {
-        return this.next(-distance)
+        return this.next({transpose: -distance})
     }
 
-    public array(directions: number[]): this {
-        for (const dir of directions) {
-            this.next(dir)
+    public array(transpositions: number[]): this {
+        for (const transpose of transpositions) {
+            this.next({transpose})
         }
         return this
     }

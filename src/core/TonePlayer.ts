@@ -30,7 +30,7 @@ export default class TonePlayer extends Player {
             amp.connect(context.destination)
 
             const osc: any = context.createOscillator()
-            osc.type = "square"
+            osc.type = "sine"
             osc.frequency.value = frequencies[note.midi] * 1.005
             osc.connect(amp)
             osc.start(context.currentTime + this.bufferTime)
@@ -38,6 +38,7 @@ export default class TonePlayer extends Player {
             osc.onended = () => {
                 osc.disconnect()
             }
+            /*
             const osc2: any = context.createOscillator()
             osc2.type = "sine"
             osc2.frequency.value = frequencies[note.midi] / 1.005
@@ -48,6 +49,7 @@ export default class TonePlayer extends Player {
                 osc2.disconnect()
                 amp.disconnect()
             }
+            */
         })
 
     }
